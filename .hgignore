@@ -1,0 +1,12 @@
+syntax: glob
+.DS_Store
+java-keyring/build
+java-keyring/dist
+java-keyring/nbproject/private
+java-keyring-example/build
+java-keyring-example/dist
+java-keyring-example/nbproject/private
+.idea
+*.iml
+*.versionsBackup
+
