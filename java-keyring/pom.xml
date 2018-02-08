@@ -1,23 +1,39 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
-    <parent>
-        <artifactId>java-keyring-parent</artifactId>
-        <groupId>net.east301</groupId>
-        <version>1.0.1-SNAPSHOT</version>
-        <relativePath>..</relativePath>
-    </parent>
+<?xml version="1.0" encoding="UTF8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>net.east301</groupId>
+        <artifactId>java-keyring-parent</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
+    </parent>
     <artifactId>java-keyring</artifactId>
+    <packaging>jar</packaging>
     <name>java-keyring</name>
     <description>A Java library to store password securely</description>
-    <url>https://bitbucket.org/east301/java-keyring/</url>
-    <packaging>jar</packaging>
 
+    <properties>
+      <parameter.jacoco.branch.coverage>0.26</parameter.jacoco.branch.coverage>
+      <parameter.jacoco.instruction.coverage>0.37</parameter.jacoco.instruction.coverage>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna-platform</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <url>https://bitbucket.org/east301/java-keyring/</url>
     <licenses>
         <license>
             <name>The BSD 3-Clause License</name>
@@ -25,121 +41,4 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
-    <scm>
-        <url>http://bitbucket.org/east301/java-keyring/</url>
-        <connection>scm:hg:https://bitbucket.org/east301/java-keyring</connection>
-        <developerConnection>scm:hg:https://bitbucket.org/east301/java-keyring</developerConnection>
-    </scm>
-
-    <developers>
-        <developer>
-            <id>east301</id>
-            <name>east301</name>
-            <email>me@east301.net</email>
-            <url>http://www.east301.net/</url>
-            <roles>
-                <role>developer</role>
-            </roles>
-            <timezone>-9</timezone>
-        </developer>
-    </developers>
-
-    <distributionManagement>
-        <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Nexus Release Repository</name>
-            <uniqueVersion>false</uniqueVersion>
-            <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/
-            </url>
-        </repository>
-    </distributionManagement>
-
-    <profiles>
-        <profile>
-            <id>release-sign-artifacts</id>
-            <activation>
-                <property>
-                    <name>performRelease</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.0-alpha-4</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
-    <build>
-        <directory>${basedir}/build</directory>
-        <sourceDirectory>${basedir}/src</sourceDirectory>
-        <testSourceDirectory>${basedir}/test</testSourceDirectory>
-
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <version>2.1.2</version>
-            </plugin>
-            <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>javadoc-jar</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <excludePackageNames>
-                            </excludePackageNames>
-                        </configuration>
-                    </execution>
-                </executions>
-                <configuration>
-                    <charset>UTF-8</charset>
-                    <show>public</show>
-                </configuration>
-                <version>2.7</version>
-            </plugin>
-        </plugins>
-    </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna-platform</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna</artifactId>
-        </dependency>
-    </dependencies>
 </project>
