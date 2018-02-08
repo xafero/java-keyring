@@ -131,7 +131,7 @@ public class OsxKeychainBackendTest {
    */
   @Test
   public void testGetId() {
-    assertTrue("OSXKeychain".equals(new OsxKeychainBackend().getID()));
+    assertTrue("OSXKeychain".equals(new OsxKeychainBackend().getId()));
   }
 
   private static void checkExistanceOfPasswordEntry(OsxKeychainBackend backend) {

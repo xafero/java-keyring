@@ -96,7 +96,7 @@ public class KeyringBackendTest {
     }
 
     @Override
-    public String getID() {
+    public String getId() {
       return "";
     }
   }

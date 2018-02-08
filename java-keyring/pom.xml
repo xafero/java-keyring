@@ -14,8 +14,9 @@
     <description>A Java library to store password securely</description>
 
     <properties>
-      <parameter.jacoco.branch.coverage>0.26</parameter.jacoco.branch.coverage>
-      <parameter.jacoco.instruction.coverage>0.37</parameter.jacoco.instruction.coverage>
+        <github.site.location>${project.version}/${project.artifactId}</github.site.location>
+        <parameter.jacoco.branch.coverage>0.26</parameter.jacoco.branch.coverage>
+        <parameter.jacoco.instruction.coverage>0.37</parameter.jacoco.instruction.coverage>
     </properties>
 
     <dependencies>
@@ -33,12 +34,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <url>https://bitbucket.org/east301/java-keyring/</url>
-    <licenses>
-        <license>
-            <name>The BSD 3-Clause License</name>
-            <url>http://opensource.org/licenses/BSD-3-Clause</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
 </project>

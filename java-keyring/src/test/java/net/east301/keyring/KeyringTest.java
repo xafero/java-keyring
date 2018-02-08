@@ -44,7 +44,7 @@ import org.junit.Test;
 import com.sun.jna.Platform;
 
 import net.east301.keyring.gnome.GnomeKeyringBackend;
-import net.east301.keyring.memory.UncryptedMemoryBackend;
+import net.east301.keyring.memory.UnencryptedMemoryBackend;
 import net.east301.keyring.osx.OsxKeychainBackend;
 import net.east301.keyring.windows.WindowsDpApiBackend;
 
@@ -94,7 +94,7 @@ public class KeyringTest {
 
       assertNotNull(keyring);
       assertNotNull(keyring.getBackend());
-      assertTrue(keyring.getBackend() instanceof UncryptedMemoryBackend);
+      assertTrue(keyring.getBackend() instanceof UnencryptedMemoryBackend);
     }
   }
 
@@ -114,7 +114,7 @@ public class KeyringTest {
     } else if (Platform.isLinux()) {
       assertTrue(keyring.getBackend() instanceof GnomeKeyringBackend);
     } else {
-      assertTrue(keyring.getBackend() instanceof UncryptedMemoryBackend);
+      assertTrue(keyring.getBackend() instanceof UnencryptedMemoryBackend);
     }
   }
 

@@ -43,12 +43,12 @@ import net.east301.keyring.util.LockException;
 /**
  * On-memory key store.
  */
-public class UncryptedMemoryBackend extends KeyringBackend {
+public class UnencryptedMemoryBackend extends KeyringBackend {
 
   /**
    * Initializes an instance of UncryptedMemoryBackend.
    */
-  public UncryptedMemoryBackend() {
+  public UnencryptedMemoryBackend() {
     unencryptedMemoryStore = new HashMap<>();
   }
 
@@ -140,7 +140,7 @@ public class UncryptedMemoryBackend extends KeyringBackend {
    * Gets backend ID.
    */
   @Override
-  public String getID() {
+  public String getId() {
     return "UncryptedMemory";
   }
 

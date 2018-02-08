@@ -38,12 +38,14 @@ import com.sun.jna.Pointer;
 /**
  * OS X Security library.
  */
+@SuppressWarnings({"AbbreviationAsWordInName","MethodName"})
 interface SecurityLibrary extends Library {
 
   public static final int ERR_SEC_SUCCESS = 0;
   public static final int ERR_SEC_ITEM_NOT_FOUND = -25300;
 
-  public int SecKeychainFindGenericPassword( // OSStatus
+  public int // OSStatus
+      SecKeychainFindGenericPassword(
       Pointer keychainOrArray, // CFTypeRef
       int serviceNameLength, // UInt32
       byte[] serviceName, // const char*
@@ -53,7 +55,8 @@ interface SecurityLibrary extends Library {
       Pointer[] passwordData, // void**
       Pointer[] itemRef); // SecKeychaingItemRef*
 
-  public int SecKeychainAddGenericPassword( // OSStatus
+  public int  // OSStatus
+      SecKeychainAddGenericPassword(
       Pointer keychain, // SecKeychainRef
       int serviceNameLength, // UInt32
       byte[] serviceName, // const char*
@@ -63,20 +66,24 @@ interface SecurityLibrary extends Library {
       byte[] passwordData, // const void*
       Pointer itemRef); // SecKeychainItemRef
 
-  public int SecKeychainItemModifyContent( // OSStatus
+  public int // OSStatus
+      SecKeychainItemModifyContent(
       Pointer itemRef, // SecKeychainItemRef
       Pointer attrList, // const SecKeychainAttributeList*
       int length, // UInt32
       byte[] data); // const void*
 
-  public int SecKeychainItemDelete( // OSStatus
+  public int // OSStatus
+      SecKeychainItemDelete(
       Pointer itemRef); // SecKeychainItemRef
 
-  public Pointer SecCopyErrorMessageString( // CFStringRef
+  public Pointer // CFStringRef
+      SecCopyErrorMessageString(
       int status, // OSStatus
       Pointer reserved); // void*
 
-  public int SecKeychainItemFreeContent( // OSStatus
+  public int // OSStatus
+      SecKeychainItemFreeContent(
       Pointer[] attrList, // SecKeychainAttributeList*
       Pointer data); // void*
 

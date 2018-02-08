@@ -44,7 +44,7 @@ import org.junit.Test;
 import com.sun.jna.Platform;
 
 import net.east301.keyring.gnome.GnomeKeyringBackend;
-import net.east301.keyring.memory.UncryptedMemoryBackend;
+import net.east301.keyring.memory.UnencryptedMemoryBackend;
 import net.east301.keyring.osx.OsxKeychainBackend;
 import net.east301.keyring.windows.WindowsDpApiBackend;
 
@@ -116,7 +116,7 @@ public class KeyringBackendFactoryTest {
     KeyringBackend backend = KeyringBackendFactory.create("UncryptedMemory");
 
     assertNotNull(backend);
-    assertTrue(backend instanceof UncryptedMemoryBackend);
+    assertTrue(backend instanceof UnencryptedMemoryBackend);
   }
 
   /**

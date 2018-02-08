@@ -14,10 +14,15 @@
     <name>java-keyring-example</name>
     <description>Example of java-keyring library</description>
 
+    <properties>
+        <github.site.location>${project.version}/${project.artifactId}</github.site.location>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>net.east301</groupId>
             <artifactId>java-keyring</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

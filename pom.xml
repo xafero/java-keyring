@@ -20,22 +20,20 @@
         <module>java-keyring-example</module>
     </modules>
 
+    <properties>
+        <github.owner>rexhoffman</github.owner>
+        <github.project>java-keyring</github.project>
+        <github.site.location>${project.version}/</github.site.location>
+        <!-- set the below parameter to false once you've cut your first release and you want semantic verion checking -->
+        <parameter.disable.semantic.versioning>true</parameter.disable.semantic.versioning>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.11</version>
-            </dependency>
-            <dependency>
-                <groupId>net.east301</groupId>
-                <artifactId>java-keyring</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.east301</groupId>
-                <artifactId>java-keyring-example</artifactId>
-                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.java.dev.jna</groupId>
@@ -49,4 +47,16 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <organization>
+        <name>e-hoffman.org</name>
+        <url>https://github.com/rexhoffman/</url>
+    </organization>
+    <developers>
+        <developer>
+            <id>rexhoffman</id>
+            <email>rex@e-hoffman.org</email>
+            <timezone>-8</timezone>
+        </developer>
+    </developers>
 </project>

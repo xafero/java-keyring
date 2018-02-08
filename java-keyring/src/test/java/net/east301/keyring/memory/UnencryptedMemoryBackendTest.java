@@ -43,14 +43,14 @@ import net.east301.keyring.PasswordRetrievalException;
 /**
  * Test of UncryptedMemoryBackend class.
  */
-public class UncryptedMemoryBackendTest {
+public class UnencryptedMemoryBackendTest {
 
   /**
    * Test of isSupported method, of class UncryptedMemoryBackend.
    */
   @Test
   public void testIsSupported() {
-    assertTrue(new UncryptedMemoryBackend().isSupported());
+    assertTrue(new UnencryptedMemoryBackend().isSupported());
   }
 
   /**
@@ -58,7 +58,7 @@ public class UncryptedMemoryBackendTest {
    */
   @Test
   public void testIsKeyStorePathRequired() {
-    assertFalse(new UncryptedMemoryBackend().isKeyStorePathRequired());
+    assertFalse(new UnencryptedMemoryBackend().isKeyStorePathRequired());
   }
 
   /**
@@ -68,7 +68,7 @@ public class UncryptedMemoryBackendTest {
   @Test(expected = PasswordRetrievalException.class)
   public void testGetPassword_InalidPassword() throws Exception {
     //
-    UncryptedMemoryBackend instance = new UncryptedMemoryBackend();
+    UnencryptedMemoryBackend instance = new UnencryptedMemoryBackend();
 
     //
     instance.getPassword(SERVICE, ACCOUNT);
@@ -81,7 +81,7 @@ public class UncryptedMemoryBackendTest {
   @Test
   public void testGetPassword_ValidPassword() throws Exception {
     //
-    UncryptedMemoryBackend instance = new UncryptedMemoryBackend();
+    UnencryptedMemoryBackend instance = new UnencryptedMemoryBackend();
 
     //
     instance.setPassword(SERVICE, ACCOUNT, PASSWORD);
@@ -94,7 +94,7 @@ public class UncryptedMemoryBackendTest {
   @Test
   public void testSetPassword() throws Exception {
     //
-    UncryptedMemoryBackend instance = new UncryptedMemoryBackend();
+    UnencryptedMemoryBackend instance = new UnencryptedMemoryBackend();
 
     //
     instance.setPassword(SERVICE, ACCOUNT, PASSWORD);
@@ -106,7 +106,7 @@ public class UncryptedMemoryBackendTest {
    */
   @Test
   public void testGetId() {
-    assertEquals("UncryptedMemory", new UncryptedMemoryBackend().getID());
+    assertEquals("UncryptedMemory", new UnencryptedMemoryBackend().getId());
   }
 
   private static final String SERVICE = "net.east301.keyring.memory unit test";

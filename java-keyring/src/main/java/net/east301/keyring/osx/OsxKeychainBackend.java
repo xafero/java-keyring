@@ -169,7 +169,7 @@ public class OsxKeychainBackend extends KeyringBackend {
    * Gets backend ID.
    */
   @Override
-  public String getID() {
+  public String getId() {
     return "OSXKeychain";
   }
 

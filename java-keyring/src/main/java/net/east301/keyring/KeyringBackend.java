@@ -102,7 +102,7 @@ public abstract class KeyringBackend {
   /**
    * Gets backend ID.
    */
-  public abstract String getID();
+  public abstract String getId();
 
   /**
    * Path to key store.

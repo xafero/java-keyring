@@ -154,7 +154,7 @@ public class WindowsDpApiBackendTest {
     assumeTrue(Platform.isWindows());
 
     //
-    assertEquals("WindowsDPAPI", new WindowsDpApiBackend().getID());
+    assertEquals("WindowsDPAPI", new WindowsDpApiBackend().getId());
   }
 
   /**
