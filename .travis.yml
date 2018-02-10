@@ -8,7 +8,7 @@ addons:
       - gnome-keyring
       - gnome-session
 before_script: 
-  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then xvfb-run;  fi
+  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then xvfb-run make test;  fi
   - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then gnome-session; fi
 script:
   - mvn clean install
