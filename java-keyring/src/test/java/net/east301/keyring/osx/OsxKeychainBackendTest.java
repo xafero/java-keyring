@@ -145,10 +145,10 @@ public class OsxKeychainBackendTest {
     }
   }
 
-  private static final String SERVICE = "net.east301.keyring.osx unit test";
+  private static final String SERVICE = "net.east301.keyring.osx.part2 unit test";
 
-  private static final String ACCOUNT = "tester";
+  private static final String ACCOUNT = "testerpart2";
 
-  private static final String PASSWORD = "HogeHoge2012";
+  private static final String PASSWORD = "HogeHoge2012part2";
 
 } // class OSXKeychainBackendTest
