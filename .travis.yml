@@ -8,9 +8,9 @@ addons:
       - gnome-keyring
       - gnome-session
 before_script: 
-  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then xvfb-run make test;  fi
+  # - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then xvfb-run make test;  fi
   - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then gnome-session; fi
 script:
-  - mvn clean install
+  - xvfb-run mvn clean install
 after_success:
   - bash <(curl -s https://codecov.io/bash)
