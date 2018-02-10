@@ -105,6 +105,8 @@ public class Keyring {
    *
    * @throws PasswordRetrievalException
    *           Thrown when an error happened while getting password
+   * @throws LockException
+   *           can't establish lock.
    */
   public String getPassword(String service, String account) throws LockException, PasswordRetrievalException {
 
@@ -123,6 +125,8 @@ public class Keyring {
    *
    * @throws PasswordSaveException
    *           Thrown when an error happened while saving the password
+   * @throws LockException
+   *           can't establish lock.
    */
   public void setPassword(String service, String account, String password) throws LockException, PasswordSaveException {
 
