@@ -8,8 +8,8 @@ addons:
       - gnome-keyring
       - gnome-session
 before_script: 
-  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then "export DISPLAY=:99.0";  fi
-  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then "sh -e /etc/init.d/xvfb start";  fi
+  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then export DISPLAY=:99.0;  fi
+  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then sh -e /etc/init.d/xvfb start;  fi
   - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then sleep 3  fi
   - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then gnome-session; fi
 script:
