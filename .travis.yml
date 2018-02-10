@@ -2,6 +2,14 @@ os:
   - linux
   - osx
 language: java
+addons:
+  apt:
+    packages:
+      - gnome-keyring
+      - gnome-session
+before-script: 
+  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then xvfb-run;  fi
+  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then gnome-session; fi
 script:
   - mvn clean install
 after_success:
