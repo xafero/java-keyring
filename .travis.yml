@@ -13,6 +13,6 @@ before_script:
   - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then sleep 3;  fi
   - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then gnome-session; fi
 script:
-  - xvfb-run mvn clean install
+  - mvn clean install
 after_success:
   - bash <(curl -s https://codecov.io/bash)
