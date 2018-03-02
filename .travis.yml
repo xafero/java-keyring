@@ -5,13 +5,13 @@ language: java
 addons:
   apt:
     packages:
+      - dbus
       - gnome-keyring
-      - gnome-session
 before_install:
 
 before_script: 
-  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16; fi  
-  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then gnome-session; fi
+  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then dbus-run-session -- sh; fi  
+  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then gnome-keyring-daemon with --unlock; fi
 script:
   - mvn clean install
 after_success:
