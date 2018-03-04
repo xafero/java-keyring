@@ -6,11 +6,12 @@ addons:
   apt:
     packages:
       - dbus
+      - libdbus-glib-1-dev
       - gnome-keyring
 before_install:
 
 before_script: 
-  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then dbus-run-session -- sh; fi  
+  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then dbus-run-session -- bash; fi  
   - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then gnome-keyring-daemon with --unlock; fi
 script:
   - mvn clean install
