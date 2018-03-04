@@ -8,6 +8,8 @@ addons:
       - dbus
       - libdbus-glib-1-dev
       - gnome-keyring
+      - gnome-desktop-testing 
+      - dbus-x11
 before_install:
 
 before_script: 
