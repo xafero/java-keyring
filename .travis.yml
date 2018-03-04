@@ -12,10 +12,7 @@ addons:
       - gnome-desktop-testing 
       - dbus-x11
 before_install:
-  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then find / -name dbus-run-session; fi  
-  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then ls -la /usr/bin/dbus-run-session; fi  
-  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then dbus-run-session -- bash; fi  
-  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then gnome-keyring-daemon with --unlock; fi
+  - if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then dbus-launch; nome-keyring-daemon with --unlock; fi  
 script:
   - mvn clean install
 after_success:
