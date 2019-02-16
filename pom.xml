@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.salesforce.maven</groupId>
         <artifactId>MavenParent</artifactId>
-        <version>1.0.8</version>
+        <version>1.0.9</version>
     </parent>
 
     <groupId>net.east301</groupId>
@@ -26,6 +26,9 @@
         <github.site.location>${project.version}/</github.site.location>
         <!-- set the below parameter to false once you've cut your first release and you want semantic verion checking -->
         <parameter.disable.semantic.versioning>true</parameter.disable.semantic.versioning>
+        <parameter.license>BSD-3</parameter.license>
+        <parameter.organization.email>rex@e-hoffman.org</parameter.organization.email>
+        <parameter.organization.name>Rex Hoffman</parameter.organization.name>
     </properties>
 
     <dependencyManagement>
@@ -33,17 +36,17 @@
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.11</version>
+                <version>4.12</version>
             </dependency>
             <dependency>
                 <groupId>net.java.dev.jna</groupId>
                 <artifactId>jna</artifactId>
-                <version>4.1.0</version>
+                <version>5.2.0</version>
             </dependency>
             <dependency>
                 <groupId>net.java.dev.jna</groupId>
                 <artifactId>jna-platform</artifactId>
-                <version>4.1.0</version>
+                <version>5.2.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -52,6 +55,11 @@
         <name>e-hoffman.org</name>
         <url>https://github.com/rexhoffman/</url>
     </organization>
+    <licenses>
+        <license>
+            <name>BSD-3</name>
+        </license>
+    </licenses>
     <developers>
         <developer>
             <id>rexhoffman</id>
