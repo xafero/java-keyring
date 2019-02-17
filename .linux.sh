@@ -4,7 +4,7 @@ if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   echo Starting dbus
   eval $(/usr/bin/dbus-launch --sh-syntax); 
   echo Starting gnome-keyring-daemon
-  eval $(printf password|gnome-keyring-daemon --login)
+  eval $(printf password|gnome-keyring-daemon --login -r)
   echo Logging in to gnome-keyring-daemon
   python -c "import gnomekeyring;gnomekeyring.unlock_sync(None, 'password');"
 
