@@ -44,3 +44,7 @@ if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   export GNOME_KEYRING_PID=$GNOME_KEYRING_PID;
 fi 
 
+if [ "$(uname -s)" == "Darwin" ]; then 
+  ls -la ~/Library/Keychains/
+  #rm -rf ~/Library/Keychains/login.keychain
+fi

@@ -15,10 +15,8 @@ addons:
       - python-gnomekeyring
       - gir1.2-gnomekeyring-1.0 
 before_script:
-  - source .linux.sh
+  - source .setupkeystore.sh
 script:
-  - echo DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS;
-  - echo DBUS_SESSION_BUS_PID=$DBUS_SESSION_BUS_PID;
   - mvn clean install
 after_success:
   - bash <(curl -s https://codecov.io/bash)
