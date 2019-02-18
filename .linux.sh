@@ -1,10 +1,27 @@
 #!/bin/sh
 
 if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then 
+  export DBUS_SESSION_BUS_ADDRESS=;
+  export DBUS_SESSION_BUS_PID=;
+  export GNOME_KEYRING_CONTROL=;
+  export SSH_AUTH_SOCK=;
+  export GPG_AGENT_INFO=;
+  export GNOME_KEYRING_PID=;
+  killall gnome-keyring-daemon;
+  killall dbus-daemon;
+
   echo Starting dbus
-  eval $(/usr/bin/dbus-launch --sh-syntax); 
+  eval $(dbus-launch --sh-syntax)
+
+  mkdir -p ~/.local/share/
+
   echo Starting gnome-keyring-daemon
-  eval $(printf password|gnome-keyring-daemon --login -r)
+  eval $(printf password|gnome-keyring-daemon --login)
+  eval $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh,gpg)
+  
+  #files should exist now
+  #ls -la ~/.local/share/keyrings/
+
   echo Logging in to gnome-keyring-daemon
   python -c "import gnomekeyring;gnomekeyring.unlock_sync(None, 'password');"
 

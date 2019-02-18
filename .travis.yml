@@ -8,12 +8,12 @@ addons:
     packages:
       - dbus
       - libdbus-glib-1-dev
-      - libgnome-keyring0
+      - libgnome-keyring0      
+      - libsecret-tools
       - gnome-keyring
-      - gnome-desktop-testing 
-      - dbus-x11
-      - libsecret-tools  
+      - libgnome-keyring-dev
       - python-gnomekeyring
+      - gir1.2-gnomekeyring-1.0 
 before_script:
   - source .linux.sh
 script:
