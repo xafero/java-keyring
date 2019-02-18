@@ -1,6 +1,7 @@
 ### Status ###
 
 [![Build Status](https://travis-ci.org/rexhoffman/java-keyring.svg?branch=master)](https://travis-ci.org/rexhoffman/java-keyring)
+[![Build status](https://ci.appveyor.com/api/projects/status/es877pdi8yn3e48c?svg=true)](https://ci.appveyor.com/project/rexhoffman/java-keyring)
 
 java-keyring
 =============
