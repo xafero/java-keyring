@@ -1,3 +1,7 @@
+### Status ###
+
+[![Build Status](https://travis-ci.org/rexhoffman/java-keyring.svg?branch=master)](https://travis-ci.org/rexhoffman/java-keyring)
+
 java-keyring
 =============
 
