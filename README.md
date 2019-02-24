@@ -8,6 +8,13 @@
 
 ## java-keyring ##
 
+<span style="{float: left; width: 30%;}">
+
+![log](./src/site/resources/javakeyring.png)
+
+</span>
+
+<span style="{float: right; width: 70%;}">
 Initially an abandoned bitbucket repo.   Many code cleanups and refactorings have taken place since, including automated builds on all relevant operating systems.
 
 Initial repo:
@@ -15,6 +22,7 @@ Initial repo:
 
 Cloned from:
 [https://bitbucket.org/bpsnervepoint/java-keyring](https://bitbucket.org/bpsnervepoint/java-keyring)
+</span>
 
 ## Summary ##
 
