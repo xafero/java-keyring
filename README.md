@@ -8,7 +8,7 @@
 
 ## java-keyring ##
 
-<img align="left" width="180" height="180" src="/src/site/resources/javakeyring.png">
+<img align="left" width="180" height="180" src="./src/site/resources/javakeyring.png">
 
 Initially an abandoned bitbucket repo.
 
