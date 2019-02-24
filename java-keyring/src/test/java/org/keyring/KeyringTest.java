@@ -87,7 +87,7 @@ public class KeyringTest {
       keyring = Keyring.create("GNOMEKeyring");
       assertNotNull(keyring);
       assertNotNull(keyring.getBackend());
-      assertTrue(keyring.getBackend() instanceof WindowsDpApiBackend);
+      assertTrue(keyring.getBackend() instanceof GnomeKeyringBackend);
     }
     keyring = Keyring.create("UnencryptedMemory");
     assertNotNull(keyring);
