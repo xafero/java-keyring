@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then 
+if [[ "$((expr substr $((uname -s)) 1 5))" == "Linux" ]]; then 
   export DBUS_SESSION_BUS_ADDRESS=;
   export DBUS_SESSION_BUS_PID=;
   export GNOME_KEYRING_CONTROL=;
@@ -16,8 +16,8 @@ if [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
   mkdir -p ~/.local/share/
 
   echo Starting gnome-keyring-daemon
-  eval $(printf password|gnome-keyring-daemon --login)
-  eval $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh,gpg)
+  eval $((printf password|gnome-keyring-daemon --login))
+  eval $((gnome-keyring-daemon --start --components=pkcs11,secrets,ssh,gpg))
   
   #files should exist now
   #ls -la ~/.local/share/keyrings/
@@ -44,7 +44,7 @@ if [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
   export GNOME_KEYRING_PID=$GNOME_KEYRING_PID;
 fi 
 
-if [[ "$(uname -s)" == "Darwin" ]]; then 
+if [[ "$((uname -s))" == "Darwin" ]]; then 
   ls -la ~/Library/Keychains/
   #rm -rf ~/Library/Keychains/login.keychain
 fi
