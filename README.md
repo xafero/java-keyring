@@ -8,21 +8,15 @@
 
 ## java-keyring ##
 
-<span style="{float: left; width: 30%;}">
+<img align="left" width="180" height="180" src="/src/site/resources/javakeyring.png">
 
-![log](./src/site/resources/javakeyring.png)
+Initially an abandoned bitbucket repo.
 
-</span>
+Many code cleanups and refactorings have taken place since, including automated builds on all relevant operating systems.
 
-<span style="{float: right; width: 70%;}">
-Initially an abandoned bitbucket repo.   Many code cleanups and refactorings have taken place since, including automated builds on all relevant operating systems.
+Initial repo: [https://bitbucket.org/east301/java-keyring](https://bitbucket.org/east301/java-keyring)
 
-Initial repo:
-[https://bitbucket.org/east301/java-keyring](https://bitbucket.org/east301/java-keyring)
-
-Cloned from:
-[https://bitbucket.org/bpsnervepoint/java-keyring](https://bitbucket.org/bpsnervepoint/java-keyring)
-</span>
+Cloned from: [https://bitbucket.org/bpsnervepoint/java-keyring](https://bitbucket.org/bpsnervepoint/java-keyring)
 
 ## Summary ##
 
