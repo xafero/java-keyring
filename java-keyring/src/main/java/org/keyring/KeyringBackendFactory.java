@@ -38,6 +38,17 @@ import org.keyring.windows.WindowsDpApiBackend;
  */
 class KeyringBackendFactory {
 
+
+  /**
+   * All keyring backends.
+   */
+  private static Object[][] KEYRING_BACKENDS = { 
+      { "OSXKeychain", OsxKeychainBackend.class },
+      { "GNOMEKeyring", GnomeKeyringBackend.class }, 
+      { "WindowsDPAPI", WindowsDpApiBackend.class },
+      { "UncryptedMemory", UnencryptedMemoryBackend.class }
+  };
+  
   /**
    * Creates an instance of KeyringBackend.
    */
@@ -133,12 +144,5 @@ class KeyringBackendFactory {
 
     return backend;
   }
-
-  /**
-   * All keyring backends.
-   */
-  private static Object[][] KEYRING_BACKENDS = { { "OSXKeychain", OsxKeychainBackend.class },
-      { "GNOMEKeyring", GnomeKeyringBackend.class }, { "WindowsDPAPI", WindowsDpApiBackend.class },
-      { "UncryptedMemory", UnencryptedMemoryBackend.class } };
 
 } // class KeyringBackendFactory

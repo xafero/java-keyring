@@ -35,6 +35,16 @@ import com.sun.jna.Native;
  */
 class NativeLibraryManager {
 
+  /**
+   * An instance of CoreFoundationLibrary.
+   */
+  public static GLIB2 glib2 = null;
+
+  /**
+   * An instance of SecurityLibrary.
+   */
+  public static GKLib gklib = null;
+  
   @SuppressWarnings("deprecation")
   public static synchronized void loadNativeLibraries() throws BackendNotSupportedException {
     if (glib2 != null && gklib != null) {
@@ -48,15 +58,4 @@ class NativeLibraryManager {
       throw new BackendNotSupportedException("Failed to load native library");
     }
   }
-
-  /**
-   * An instance of CoreFoundationLibrary.
-   */
-  public static GLIB2 glib2 = null;
-
-  /**
-   * An instance of SecurityLibrary.
-   */
-  public static GKLib gklib = null;
-
 } // class NativeLibraryManager

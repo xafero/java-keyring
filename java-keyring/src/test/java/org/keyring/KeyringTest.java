@@ -46,6 +46,16 @@ import com.sun.jna.Platform;
  */
 public class KeyringTest {
 
+  private static final String SERVICE = "net.east301.keyring unit test";
+
+  private static final String ACCOUNT = "tester";
+
+  private static final String PASSWORD = "HogeHoge2012";
+
+  private static final String KEYSTORE_PREFIX = "keystore";
+
+  private static final String KEYSTORE_SUFFIX = ".keystore";
+  
   /**
    * Test of create method, of class Keyring.
    */
@@ -198,15 +208,5 @@ public class KeyringTest {
       // do nothing
     }
   }
-
-  private static final String SERVICE = "net.east301.keyring unit test";
-
-  private static final String ACCOUNT = "tester";
-
-  private static final String PASSWORD = "HogeHoge2012";
-
-  private static final String KEYSTORE_PREFIX = "keystore";
-
-  private static final String KEYSTORE_SUFFIX = ".keystore";
 
 } // class KeyringTest

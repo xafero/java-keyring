@@ -38,6 +38,12 @@ import org.keyring.PasswordRetrievalException;
  */
 public class UnencryptedMemoryBackendTest {
 
+  private static final String SERVICE = "net.east301.keyring.memory unit test";
+
+  private static final String ACCOUNT = "tester";
+
+  private static final String PASSWORD = "HogeHoge2012";
+  
   /**
    * Test of isSupported method, of class UncryptedMemoryBackend.
    */
@@ -101,11 +107,5 @@ public class UnencryptedMemoryBackendTest {
   public void testGetId() {
     assertEquals("UncryptedMemory", new UnencryptedMemoryBackend().getId());
   }
-
-  private static final String SERVICE = "net.east301.keyring.memory unit test";
-
-  private static final String ACCOUNT = "tester";
-
-  private static final String PASSWORD = "HogeHoge2012";
 
 } // class UncryptedMemoryBackendTest

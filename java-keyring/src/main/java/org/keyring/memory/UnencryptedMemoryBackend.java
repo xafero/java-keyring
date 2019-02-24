@@ -40,6 +40,11 @@ import org.keyring.util.LockException;
 public class UnencryptedMemoryBackend extends KeyringBackend {
 
   /**
+   * Password container.
+   */
+  private Map<String[], String> unencryptedMemoryStore; // { {ServiceName, AccountName} => Password }
+  
+  /**
    * Initializes an instance of UncryptedMemoryBackend.
    */
   public UnencryptedMemoryBackend() {
@@ -137,10 +142,5 @@ public class UnencryptedMemoryBackend extends KeyringBackend {
   public String getId() {
     return "UncryptedMemory";
   }
-
-  /**
-   * Password container.
-   */
-  private Map<String[], String> unencryptedMemoryStore; // { {ServiceName, AccountName} => Password }
 
 } // class UncryptedMemoryBackend

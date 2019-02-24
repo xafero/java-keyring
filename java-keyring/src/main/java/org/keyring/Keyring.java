@@ -34,6 +34,11 @@ import org.keyring.util.LockException;
 public class Keyring {
 
   /**
+   * Keyring backend.
+   */
+  private KeyringBackend backend;
+  
+  /**
    * Creates an instance of Keyring.
    */
   public static Keyring create() throws BackendNotSupportedException {
@@ -132,9 +137,5 @@ public class Keyring {
     backend.setPassword(service, account, password);
   }
 
-  /**
-   * Keyring backend.
-   */
-  private KeyringBackend backend;
 
 } // class Keyring

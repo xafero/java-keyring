@@ -40,6 +40,26 @@ import java.util.logging.Logger;
 public class FileBasedLock {
 
   /**
+   * Path to a file to be used to lock.
+   */
+  private final String path;
+
+  /**
+   * A File instance to be used to lock.
+   */
+  private File file;
+
+  /**
+   * A FileChannel instance obtained from m_file.
+   */
+  private FileChannel channel;
+
+  /**
+   * A FileLock instance obtained from m_channel.
+   */
+  private FileLock lock;
+  
+  /**
    * Initializes an instance of FileBasedLock.
    *
    * @param path
@@ -107,25 +127,5 @@ public class FileBasedLock {
   public String getPath() {
     return path;
   }
-
-  /**
-   * Path to a file to be used to lock.
-   */
-  private final String path;
-
-  /**
-   * A File instance to be used to lock.
-   */
-  private File file;
-
-  /**
-   * A FileChannel instance obtained from m_file.
-   */
-  private FileChannel channel;
-
-  /**
-   * A FileLock instance obtained from m_channel.
-   */
-  private FileLock lock;
 
 } // class FileBasedLock

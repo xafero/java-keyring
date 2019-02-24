@@ -35,6 +35,17 @@ import com.sun.jna.Native;
  */
 class NativeLibraryManager {
 
+  /**
+   * An instance of CoreFoundationLibrary.
+   */
+  public static CoreFoundationLibrary CoreFoundation = null;
+
+  /**
+   * An instance of SecurityLibrary.
+   */
+  public static SecurityLibrary Security = null;
+
+  
   @SuppressWarnings("deprecation")
   public static synchronized void loadNativeLibraries() throws BackendNotSupportedException {
     if (CoreFoundation != null && Security != null) {
@@ -48,15 +59,5 @@ class NativeLibraryManager {
       throw new BackendNotSupportedException("Failed to load native library");
     }
   }
-
-  /**
-   * An instance of CoreFoundationLibrary.
-   */
-  public static CoreFoundationLibrary CoreFoundation = null;
-
-  /**
-   * An instance of SecurityLibrary.
-   */
-  public static SecurityLibrary Security = null;
 
 } // class NativeLibraryManager

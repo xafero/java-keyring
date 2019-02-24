@@ -34,6 +34,16 @@ import org.keyring.util.LockException;
 public abstract class KeyringBackend {
 
   /**
+   * Gets backend ID.
+   */
+  public abstract String getId();
+
+  /**
+   * Path to key store.
+   */
+  protected String keyStorePath;
+
+  /**
    * Setup actual key store.
    */
   public void setup() throws BackendNotSupportedException {
@@ -97,15 +107,5 @@ public abstract class KeyringBackend {
    */
   public abstract void setPassword(String service, String account, String password)
       throws LockException, PasswordSaveException;
-
-  /**
-   * Gets backend ID.
-   */
-  public abstract String getId();
-
-  /**
-   * Path to key store.
-   */
-  protected String keyStorePath;
 
 } // class KeyringBackend

@@ -42,6 +42,12 @@ import com.sun.jna.Platform;
  */
 public class OsxKeychainBackendTest {
 
+  private static final String SERVICE = "net.east301.keyring.osx.part2 unit test";
+
+  private static final String ACCOUNT = "testerpart2";
+
+  private static final String PASSWORD = "HogeHoge2012part2";
+
   /**
    * Test of setup method, of class OSXKeychainBackend.
    */
@@ -137,11 +143,4 @@ public class OsxKeychainBackendTest {
       // do nothing
     }
   }
-
-  private static final String SERVICE = "net.east301.keyring.osx.part2 unit test";
-
-  private static final String ACCOUNT = "testerpart2";
-
-  private static final String PASSWORD = "HogeHoge2012part2";
-
 } // class OSXKeychainBackendTest
