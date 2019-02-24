@@ -46,7 +46,7 @@ class KeyringBackendFactory {
       { "OSXKeychain", OsxKeychainBackend.class },
       { "GNOMEKeyring", GnomeKeyringBackend.class }, 
       { "WindowsDPAPI", WindowsDpApiBackend.class },
-      { "UncryptedMemory", UnencryptedMemoryBackend.class }
+      { "UnencryptedMemory", UnencryptedMemoryBackend.class }
   };
   
   /**

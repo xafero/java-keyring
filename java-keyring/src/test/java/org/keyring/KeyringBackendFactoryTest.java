@@ -51,11 +51,8 @@ public class KeyringBackendFactoryTest {
    */
   @Test
   public void testCreate_0args() throws Exception {
-    //
     KeyringBackend backend = KeyringBackendFactory.create();
     assertNotNull(backend);
-
-    //
     if (Platform.isMac()) {
       assertTrue(backend instanceof OsxKeychainBackend);
     } else if (Platform.isWindows()) {
@@ -104,10 +101,8 @@ public class KeyringBackendFactoryTest {
    * UncryptedMemory.
    */
   @Test
-  public void testCreate_String_UncryptedMemory() throws Exception {
-    //
-    KeyringBackend backend = KeyringBackendFactory.create("UncryptedMemory");
-
+  public void testCreateStringUnencryptedMemory() throws Exception {
+    KeyringBackend backend = KeyringBackendFactory.create("UnencryptedMemory");
     assertNotNull(backend);
     assertTrue(backend instanceof UnencryptedMemoryBackend);
   }
@@ -126,15 +121,11 @@ public class KeyringBackendFactoryTest {
    */
   @Test
   public void testGetAllBackendNames() {
-    //
     String[] backends = KeyringBackendFactory.getAllBackendNames();
-
-    //
     assertTrue(backends.length == 4);
     assertTrue(Arrays.asList(backends).contains("OSXKeychain"));
     assertTrue(Arrays.asList(backends).contains("WindowsDPAPI"));
     assertTrue(Arrays.asList(backends).contains("GNOMEKeyring"));
-    assertTrue(Arrays.asList(backends).contains("UncryptedMemory"));
+    assertTrue(Arrays.asList(backends).contains("UnencryptedMemory"));
   }
-
-} // class KeyringBackendFactoryTest
+}

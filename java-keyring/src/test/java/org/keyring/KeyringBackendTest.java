@@ -42,13 +42,8 @@ public class KeyringBackendTest {
    */
   @Test
   public void testGetKeyStorePath() {
-    //
     KeyringBackend instance = new KeyringBackendImpl();
-
-    //
     assertNull(instance.getKeyStorePath());
-
-    //
     instance.setKeyStorePath("/path/to/keystore");
     assertEquals("/path/to/keystore", instance.getKeyStorePath());
   }
@@ -58,10 +53,7 @@ public class KeyringBackendTest {
    */
   @Test
   public void testSetKeyStorePath() {
-    //
     KeyringBackend instance = new KeyringBackendImpl();
-
-    //
     instance.setKeyStorePath("/path/to/keystore");
     assertEquals("/path/to/keystore", instance.getKeyStorePath());
   }
@@ -86,6 +78,7 @@ public class KeyringBackendTest {
     @Override
     public void setPassword(String service, String account, String password)
         throws LockException, PasswordSaveException {
+      //no op.
     }
 
     @Override
@@ -93,5 +86,4 @@ public class KeyringBackendTest {
       return "";
     }
   }
-
-} // class KeyringBackendTest
+}

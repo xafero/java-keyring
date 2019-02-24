@@ -53,10 +53,7 @@ public class OsxKeychainBackendTest {
    */
   @Test
   public void testSetup() throws Exception {
-    //
     assumeTrue(Platform.isMac());
-
-    //
     try {
       new OsxKeychainBackend().setup();
     } catch (BackendNotSupportedException ex) {
@@ -69,10 +66,7 @@ public class OsxKeychainBackendTest {
    */
   @Test
   public void testIsSupported() {
-    //
     assumeTrue(Platform.isMac());
-
-    //
     assertTrue(new OsxKeychainBackend().isSupported());
   }
 
@@ -81,10 +75,7 @@ public class OsxKeychainBackendTest {
    */
   @Test
   public void testIsKeyStorePathRequired() {
-    //
     assumeTrue(Platform.isMac());
-
-    //
     assertFalse(new OsxKeychainBackend().isKeyStorePathRequired());
   }
 
@@ -93,17 +84,10 @@ public class OsxKeychainBackendTest {
    */
   @Test
   public void testGetPassword() throws Exception {
-    //
     assumeTrue(Platform.isMac());
-
-    //
     OsxKeychainBackend backend = new OsxKeychainBackend();
     backend.setup();
-
-    //
     checkExistanceOfPasswordEntry(backend);
-
-    //
     backend.setPassword(SERVICE, ACCOUNT, PASSWORD);
     assertTrue(PASSWORD.equals(backend.getPassword(SERVICE, ACCOUNT)));
   }
@@ -113,14 +97,9 @@ public class OsxKeychainBackendTest {
    */
   @Test
   public void testSetPassword() throws Exception {
-    //
     assumeTrue(Platform.isMac());
-
-    //
     OsxKeychainBackend backend = new OsxKeychainBackend();
     backend.setup();
-
-    //
     backend.setPassword(SERVICE, ACCOUNT, PASSWORD);
     assertTrue(PASSWORD.equals(backend.getPassword(SERVICE, ACCOUNT)));
   }
@@ -136,11 +115,10 @@ public class OsxKeychainBackendTest {
   private static void checkExistanceOfPasswordEntry(OsxKeychainBackend backend) {
     try {
       backend.getPassword(SERVICE, ACCOUNT);
-
       System.err.println(String
           .format("Please remove password entry '%s' " + "by using Keychain Access before running the tests", SERVICE));
     } catch (PasswordRetrievalException ex) {
       // do nothing
     }
   }
-} // class OSXKeychainBackendTest
+}

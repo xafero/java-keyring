@@ -65,10 +65,7 @@ public class WindowsDpApiBackendTest {
    */
   @Test
   public void testIsSupported() {
-    //
     assumeTrue(Platform.isWindows());
-
-    //
     assertTrue(new WindowsDpApiBackend().isSupported());
   }
 
@@ -77,10 +74,7 @@ public class WindowsDpApiBackendTest {
    */
   @Test
   public void testIsKeyStorePathRequired() {
-    //
     assumeTrue(Platform.isWindows());
-
-    //
     assertTrue(new WindowsDpApiBackend().isKeyStorePathRequired());
   }
 
@@ -90,18 +84,11 @@ public class WindowsDpApiBackendTest {
    */
   @Test(expected = PasswordRetrievalException.class)
   public void testGetPassword_InvalidEntry() throws Exception {
-    //
     assumeTrue(Platform.isWindows());
-
-    //
     File keystore = File.createTempFile(KEYSTORE_PREFIX, KEYSTORE_SUFFIX);
-
-    //
     WindowsDpApiBackend backend = new WindowsDpApiBackend();
     backend.setKeyStorePath(keystore.getPath());
     backend.setup();
-
-    //
     backend.getPassword(SERVICE, ACCOUNT);
   }
 
@@ -117,18 +104,11 @@ public class WindowsDpApiBackendTest {
    */
   public void testGetPassword_ValidEntry() throws IOException, BackendNotSupportedException, LockException,
       PasswordSaveException, PasswordRetrievalException {
-    //
     assumeTrue(Platform.isWindows());
-
-    //
     File keystore = File.createTempFile(KEYSTORE_PREFIX, KEYSTORE_SUFFIX);
-
-    //
     WindowsDpApiBackend backend = new WindowsDpApiBackend();
     backend.setKeyStorePath(keystore.getPath());
     backend.setup();
-
-    //
     backend.setPassword(SERVICE, ACCOUNT, PASSWORD);
     assertEquals(PASSWORD, backend.getPassword(SERVICE, ACCOUNT));
   }
@@ -138,18 +118,11 @@ public class WindowsDpApiBackendTest {
    */
   @Test
   public void testSetPassword() throws Exception {
-    //
     assumeTrue(Platform.isWindows());
-
-    //
     File keystore = File.createTempFile(KEYSTORE_PREFIX, KEYSTORE_SUFFIX);
-
-    //
     WindowsDpApiBackend backend = new WindowsDpApiBackend();
     backend.setKeyStorePath(keystore.getPath());
     backend.setup();
-
-    //
     backend.setPassword(SERVICE, ACCOUNT, PASSWORD);
     assertEquals(PASSWORD, backend.getPassword(SERVICE, ACCOUNT));
   }
@@ -159,10 +132,7 @@ public class WindowsDpApiBackendTest {
    */
   @Test
   public void testGetId() {
-    //
     assumeTrue(Platform.isWindows());
-
-    //
     assertEquals("WindowsDPAPI", new WindowsDpApiBackend().getId());
   }
 
@@ -171,16 +141,10 @@ public class WindowsDpApiBackendTest {
    */
   @Test
   public void testGetLockPath() throws Exception {
-    //
     assumeTrue(Platform.isWindows());
-
-    //
     WindowsDpApiBackend backend = new WindowsDpApiBackend();
     backend.setKeyStorePath("/path/to/keystore");
     backend.setup();
-
-    //
     assertEquals("/path/to/keystore.lock", backend.getLockPath());
   }
-
-} // class WindowsDPAPIBackendTest
+}
