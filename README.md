@@ -1,10 +1,18 @@
 ### Status ###
 
-[![Build Status](https://travis-ci.org/rexhoffman/java-keyring.svg?branch=master)](https://travis-ci.org/rexhoffman/java-keyring)
-[![Build status](https://ci.appveyor.com/api/projects/status/es877pdi8yn3e48c?svg=true)](https://ci.appveyor.com/project/rexhoffman/java-keyring)
+[![Build Status](https://travis-ci.org/javakeyring/java-keyring.svg?branch=master)](https://travis-ci.org/rexhoffman/java-keyring)
+![Build status](https://ci.appveyor.com/api/projects/status/ylx4o7wv80eavc2a/branch/master?svg=true)]
 
 java-keyring
 =============
+
+Initially an abandoned bitbucket repo.   Many code cleanups and refactorings have taken place since, including automated builds on all relevant operating systems.
+
+Initial repo:
+https://bitbucket.org/east301/java-keyring
+
+Cloned from:
+https://bitbucket.org/bpsnervepoint/java-keyring
 
 Summary
 -------
@@ -20,11 +28,6 @@ Currently Mac OS X, Windows and Linux (GNOME) are supported.
 * __Windows__
     * Passwords are encrypted by [Data Protection API](http://msdn.microsoft.com/en-us/library/ms995355.aspx) 
       and stored in a file using [ObjectOutputStream](http://docs.oracle.com/javase/6/docs/api/java/io/ObjectOutputStream.html) etc.
-
-If you find bug, please let me know via [issue tracker](http://bitbucket.org/east301/java-keyring/issues)
-or twitter [@east301](http://twitter.com/east301). In addition, any patch/modification is highly welcome.
-
-
 
 Source code tree
 ----------------
