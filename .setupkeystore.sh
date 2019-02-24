@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then 
+if [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then 
   export DBUS_SESSION_BUS_ADDRESS=;
   export DBUS_SESSION_BUS_PID=;
   export GNOME_KEYRING_CONTROL=;
@@ -27,10 +27,10 @@ if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 
   echo Storing a secret with secret-tool
   printf test|secret-tool store --label='Password for mydrive' drive mydrive
-  PASS=`secret-tool lookup drive mydrive`
+  PASS=$(secret-tool lookup drive mydrive)
 
   echo Checking the secret can be retrieved.
-  if  [ "$PASS" != "test" ]; then
+  if  [[ "$PASS" != "test" ]]; then
     echo FAIL: the secret could not be retrieved.
     return 1;
   fi
@@ -44,7 +44,7 @@ if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   export GNOME_KEYRING_PID=$GNOME_KEYRING_PID;
 fi 
 
-if [ "$(uname -s)" == "Darwin" ]; then 
+if [[ "$(uname -s)" == "Darwin" ]]; then 
   ls -la ~/Library/Keychains/
   #rm -rf ~/Library/Keychains/login.keychain
 fi
