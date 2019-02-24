@@ -34,14 +34,14 @@ import org.keyring.util.LockException;
 public abstract class KeyringBackend {
 
   /**
-   * Gets backend ID.
-   */
-  public abstract String getId();
-
-  /**
    * Path to key store.
    */
   protected String keyStorePath;
+  
+  /**
+   * Gets backend Id.
+   */
+  public abstract String getId();
 
   /**
    * Setup actual key store.

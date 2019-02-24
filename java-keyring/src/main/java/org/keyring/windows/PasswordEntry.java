@@ -34,6 +34,22 @@ import java.io.Serializable;
 class PasswordEntry implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
+  /**
+   * Service name.
+   */
+  private String service;
+
+  /**
+   * Account name.
+   */
+  private String account;
+
+  /**
+   * Password.
+   */
+  private byte[] password;
+
   
   /**
    * Initializes an instance of PasswordEntry.
@@ -93,19 +109,4 @@ class PasswordEntry implements Serializable {
     this.password = password;
   }
 
-  /**
-   * Service name.
-   */
-  private String service;
-
-  /**
-   * Account name.
-   */
-  private String account;
-
-  /**
-   * Password.
-   */
-  private byte[] password;
-
-} // class PasswordEntry
+}
