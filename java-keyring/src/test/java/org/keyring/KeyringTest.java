@@ -60,7 +60,7 @@ public class KeyringTest {
    * Test of create method, of class Keyring.
    */
   @Test
-  public void testCreate_0args() throws Exception {
+  public void testCreateZeroArgs() throws Exception {
     Keyring keyring = Keyring.create();
     assertNotNull(keyring);
     assertNotNull(keyring.getBackend());
@@ -71,7 +71,7 @@ public class KeyringTest {
    * Test of create method, of class Keyring.
    */
   @Test
-  public void testCreate_String() throws Exception {
+  public void testCreateString() throws Exception {
     Keyring keyring;
     if (Platform.isMac()) {
       keyring = Keyring.create("OSXKeychain");

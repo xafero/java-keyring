@@ -50,7 +50,7 @@ public class KeyringBackendFactoryTest {
    * Test of create method, of class KeyringBackendFactory.
    */
   @Test
-  public void testCreate_0args() throws Exception {
+  public void testCreateZeroArgs() throws Exception {
     KeyringBackend backend = KeyringBackendFactory.create();
     assertNotNull(backend);
     if (Platform.isMac()) {

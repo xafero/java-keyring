@@ -65,7 +65,7 @@ public class UnencryptedMemoryBackendTest {
    * invalid entry.
    */
   @Test(expected = PasswordRetrievalException.class)
-  public void testGetPassword_InalidPassword() throws Exception {
+  public void testGetPasswordInalidPassword() throws Exception {
     UnencryptedMemoryBackend instance = new UnencryptedMemoryBackend();
     instance.getPassword(SERVICE, ACCOUNT);
   }
@@ -75,7 +75,7 @@ public class UnencryptedMemoryBackendTest {
    * valid entry.
    */
   @Test
-  public void testGetPassword_ValidPassword() throws Exception {
+  public void testGetPasswordValidPassword() throws Exception {
     UnencryptedMemoryBackend instance = new UnencryptedMemoryBackend();
     instance.setPassword(SERVICE, ACCOUNT, PASSWORD);
     assertEquals(PASSWORD, instance.getPassword(SERVICE, ACCOUNT));

@@ -50,4 +50,4 @@ interface GKLib extends Library {
   int gnome_keyring_set_network_password_sync(String keyring, String user, String domain, String server, String object,
       String protocol, String authtype, int port, String password, IntByReference item_id);
 
-} // interface GKLib
+}

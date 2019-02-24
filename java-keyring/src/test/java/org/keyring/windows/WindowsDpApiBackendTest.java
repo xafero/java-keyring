@@ -83,7 +83,7 @@ public class WindowsDpApiBackendTest {
    * invalid entry.
    */
   @Test(expected = PasswordRetrievalException.class)
-  public void testGetPassword_InvalidEntry() throws Exception {
+  public void testGetPasswordInvalidEntry() throws Exception {
     assumeTrue(Platform.isWindows());
     File keystore = File.createTempFile(KEYSTORE_PREFIX, KEYSTORE_SUFFIX);
     WindowsDpApiBackend backend = new WindowsDpApiBackend();
@@ -102,7 +102,7 @@ public class WindowsDpApiBackendTest {
    * @throws PasswordSaveException xxx.
    * @throws PasswordRetrievalException xxx.
    */
-  public void testGetPassword_ValidEntry() throws IOException, BackendNotSupportedException, LockException,
+  public void testGetPasswordValidEntry() throws IOException, BackendNotSupportedException, LockException,
       PasswordSaveException, PasswordRetrievalException {
     assumeTrue(Platform.isWindows());
     File keystore = File.createTempFile(KEYSTORE_PREFIX, KEYSTORE_SUFFIX);
