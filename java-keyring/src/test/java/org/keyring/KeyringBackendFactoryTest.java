@@ -112,7 +112,7 @@ public class KeyringBackendFactoryTest {
    * backend name.
    */
   @Test(expected = BackendNotSupportedException.class)
-  public void testCreate_String_Invalid() throws Exception {
+  public void testCreateStringInvalid() throws Exception {
     KeyringBackendFactory.create("MyInvalidBackendName");
   }
 
