@@ -1,10 +1,20 @@
 ### Status ###
 
-[![Build Status](https://travis-ci.org/rexhoffman/java-keyring.svg?branch=master)](https://travis-ci.org/rexhoffman/java-keyring)
-[![Build status](https://ci.appveyor.com/api/projects/status/es877pdi8yn3e48c?svg=true)](https://ci.appveyor.com/project/rexhoffman/java-keyring)
+[![Build Status](https://travis-ci.org/javakeyring/java-keyring.svg?branch=master)](https://travis-ci.org/javakeyring/java-keyring)
+[![Build status](https://ci.appveyor.com/api/projects/status/x0wjmw353hid9ol4?svg=true)](https://ci.appveyor.com/project/rexhoffman/java-keyring)
+[![codebeat badge](https://codebeat.co/badges/ebdaafc6-987c-41bd-8902-e277334aac30)](https://codebeat.co/projects/github-com-javakeyring-java-keyring-master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/13a3630bfb6b4bfc90f3e53f838b0ab3)](https://www.codacy.com/app/javakeyring/java-keyring?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=javakeyring/java-keyring&amp;utm_campaign=Badge_Grade)
 
 java-keyring
 =============
+
+Initially an abandoned bitbucket repo.   Many code cleanups and refactorings have taken place since, including automated builds on all relevant operating systems.
+
+Initial repo:
+https://bitbucket.org/east301/java-keyring
+
+Cloned from:
+https://bitbucket.org/bpsnervepoint/java-keyring
 
 Summary
 -------
@@ -13,18 +23,13 @@ java-keyring is a small library which provides java API to store password etc. s
 Currently Mac OS X, Windows and Linux (GNOME) are supported.
 
 * __Mac OS X__
-    * Passwords are stored using [OS X Keychain](http://developer.apple.com/documentation/Security/
+    * Passwords are stored using [OS X Keychain](http://developer.apple.com/documentation/Security/)
 * __Linux__
     * Passwords are stored using [GNOME Keyring](https://wiki.gnome.org/Projects/GnomeKeyring) and a supporting data file that uses
     [ObjectOutputStream](http://docs.oracle.com/javase/6/docs/api/java/io/ObjectOutputStream.html) etc.
 * __Windows__
     * Passwords are encrypted by [Data Protection API](http://msdn.microsoft.com/en-us/library/ms995355.aspx) 
       and stored in a file using [ObjectOutputStream](http://docs.oracle.com/javase/6/docs/api/java/io/ObjectOutputStream.html) etc.
-
-If you find bug, please let me know via [issue tracker](http://bitbucket.org/east301/java-keyring/issues)
-or twitter [@east301](http://twitter.com/east301). In addition, any patch/modification is highly welcome.
-
-
 
 Source code tree
 ----------------
