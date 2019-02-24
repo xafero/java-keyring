@@ -28,6 +28,11 @@ build_script:
   - mvn clean package -DskipTests
 test_script:
   - mvn clean verify
+after_test:
+  - ps: |
+      $env:PATH = 'C:\msys64\usr\bin;' + $env:PATH
+      Invoke-WebRequest -Uri 'https://codecov.io/bash' -OutFile codecov.sh
+      bash codecov.sh -f "coverage.xml"
 cache:
   - C:\maven\
   - C:\Users\appveyor\.m2
