@@ -35,7 +35,7 @@ java-keyring package contains the following directories
 
 __java-keyring__ directory
 
-*  java-keyring library source code
+*   java-keyring library source code
     
 __java-keyring-example__ directory
     

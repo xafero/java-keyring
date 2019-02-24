@@ -11,7 +11,7 @@ if [[ "$((expr substr $((uname -s)) 1 5))" == "Linux" ]]; then
   killall dbus-daemon;
 
   echo Starting dbus
-  eval $(dbus-launch --sh-syntax)
+  eval $((dbus-launch --sh-syntax))
 
   mkdir -p ~/.local/share/
 
