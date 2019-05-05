@@ -21,6 +21,7 @@
     </modules>
 
     <properties>
+        <github.domain>github.com</github.domain>
         <github.owner>javakeyring</github.owner>
         <github.project>java-keyring</github.project>
         <github.site.location>${project.version}/</github.site.location>
@@ -71,4 +72,9 @@
             <timezone>-8</timezone>
         </developer>
     </developers>
+    <scm>
+        <connection>scm:git:git:${github.domain}:${github.owner}/${github.project}.git</connection>
+        <developerConnection>scm:git:git:${github.domain}:${github.owner}/${github.project}.git</developerConnection>
+        <url>https://${github.domain}/${github.owner}/${github.project}/blob/master/</url>
+    </scm>
 </project>
