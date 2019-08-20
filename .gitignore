@@ -6,3 +6,4 @@
 **/.pmdruleset.xml
 **/.checkstyle
 **/target
+**/.DS_Store
