@@ -24,7 +24,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.javakeyring.gnome;
+package com.github.javakeyring.internal.gnome;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,18 +37,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.github.javakeyring.BackendNotSupportedException;
-import com.github.javakeyring.KeyringBackend;
-import com.github.javakeyring.PasswordRetrievalException;
-import com.github.javakeyring.PasswordSaveException;
+import com.github.javakeyring.KeyStorePath;
+import com.github.javakeyring.PasswordAccessException;
+import com.github.javakeyring.internal.KeyringBackend;
 import com.sun.jna.Platform;
-import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.PointerByReference;
 
 /**
+ * <p>
  * Keyring backend which uses GNOME Keyring.
+ * </p>
+ * Maybe replace with https://specifications.freedesktop.org/secret-service/?
  */
-public class GnomeKeyringBackend extends KeyringBackend {
+public class GnomeKeyringBackend implements KeyringBackend, KeyStorePath {
+
+  private String keyStorePath = "keystore.keystore";
 
   private final NativeLibraryManager libraries;
   
@@ -69,14 +73,6 @@ public class GnomeKeyringBackend extends KeyringBackend {
   }
 
   /**
-   * Returns true if the backend directory uses some file to store passwords.
-   */
-  @Override
-  public boolean isKeyStorePathRequired() {
-    return true;
-  }
-
-  /**
    * Gets password from key store.
    *
    * @param service
@@ -86,30 +82,22 @@ public class GnomeKeyringBackend extends KeyringBackend {
    *
    * @return Password related to specified service and account
    *
-   * @throws PasswordRetrievalException
+   * @throws PasswordAccessException
    *           Thrown when an error happened while getting password
    */
   @Override
-  public String getPassword(String service, String account) throws PasswordRetrievalException {
-
+  public String getPassword(String service, String account) throws PasswordAccessException {
     PointerByReference ptr = new PointerByReference();
-    Pointer item = null;
     Map<String, Integer> map = loadMap();
     Integer id = map.get(service + "/" + account);
     if (id == null) {
-      throw new PasswordRetrievalException("No password stored for this service and account.");
+      throw new PasswordAccessException("No password stored for this service and account.");
     }
-    try {
-      int result = libraries.getGklib().gnome_keyring_item_get_info_full_sync(null, id, 1, ptr);
-      if (result == 0) {
-        return libraries.getGklib().gnome_keyring_item_info_get_secret(ptr.getValue());
-      } else {
-        throw new PasswordRetrievalException(libraries.getGklib().gnome_keyring_result_to_message(result));
-      }
-    } finally {
-      if (item != null) {
-        libraries.getGklib().gnome_keyring_item_info_free(item);
-      }
+    int result = libraries.getGklib().gnome_keyring_item_get_info_full_sync(null, id, 1, ptr);
+    if (result == 0) {
+      return libraries.getGklib().gnome_keyring_item_info_get_secret(ptr.getValue());
+    } else {
+      throw new PasswordAccessException(libraries.getGklib().gnome_keyring_result_to_message(result));
     }
   }
 
@@ -123,16 +111,16 @@ public class GnomeKeyringBackend extends KeyringBackend {
    * @param password
    *          Password
    *
-   * @throws PasswordSaveException
+   * @throws PasswordAccessException
    *           Thrown when an error happened while saving the password
    */
   @Override
-  public void setPassword(String service, String account, String password) throws PasswordSaveException {
+  public void setPassword(String service, String account, String password) throws PasswordAccessException {
     IntByReference ref = new IntByReference();
     int result = libraries.getGklib().gnome_keyring_set_network_password_sync(null, account, null, service, null,
         null, null, 0, password, ref);
     if (result != 0) {
-      throw new PasswordSaveException(libraries.getGklib().gnome_keyring_result_to_message(result));
+      throw new PasswordAccessException(libraries.getGklib().gnome_keyring_result_to_message(result));
     }
     Map<String, Integer> map = loadMap();
     map.put(service + "/" + account, ref.getValue());
@@ -147,23 +135,14 @@ public class GnomeKeyringBackend extends KeyringBackend {
    * @param account
    *          Account name
    *
-   * @throws PasswordSaveException
+   * @throws PasswordAccessException
    *           Thrown when an error happened while saving the password
    */
   @Override
-  public void deletePassword(String service, String account) throws PasswordSaveException {
+  public void deletePassword(String service, String account) throws PasswordAccessException {
     Map<String, Integer> map = loadMap();
     map.remove(service + "/" + account);
     saveMap(map);
-  }
-  
-
-  /**
-   * Gets backend ID.
-   */
-  @Override
-  public String getId() {
-    return "GNOMEKeyring";
   }
 
   /**
@@ -194,10 +173,10 @@ public class GnomeKeyringBackend extends KeyringBackend {
    * @param entries
    *          Map to be saved
    *
-   * @throws PasswordSaveException
+   * @throws PasswordAccessException
    *           Thrown when an error happened while writing to a file
    */
-  private void saveMap(Map<String, Integer> map) throws PasswordSaveException {
+  private void saveMap(Map<String, Integer> map) throws PasswordAccessException {
 
     try {
       ObjectOutputStream fout = new ObjectOutputStream(new FileOutputStream(keyStorePath));
@@ -209,7 +188,18 @@ public class GnomeKeyringBackend extends KeyringBackend {
       }
     } catch (Exception ex) {
       Logger.getLogger(GnomeKeyringBackend.class.getName()).log(Level.SEVERE, null, ex);
-      throw new PasswordSaveException("Failed to save password entries to a file");
+      throw new PasswordAccessException("Failed to save password entries to a file");
     }
   }
-} // class GNOMEKeyringBackend
+  
+  @Override
+  public String getKeyStorePath() {
+    return keyStorePath;
+  }
+
+  @Override
+  public void setKeyStorePath(String path) {
+    keyStorePath = path;
+  }
+
+}

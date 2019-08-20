@@ -24,7 +24,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.javakeyring.osx;
+package com.github.javakeyring.internal.windows;
 
 import com.github.javakeyring.BackendNotSupportedException;
 import com.sun.jna.Native;
@@ -35,31 +35,29 @@ import com.sun.jna.Native;
 class NativeLibraryManager {
 
   /**
-   * An instance of CoreFoundationLibrary.
+   * An instance of Advapi32.
    */
-  private final CoreFoundationLibrary coreFoundation;
+  private final Advapi32 advapi32;
 
   /**
-   * An instance of SecurityLibrary.
+   * An instance of Kernel32.
    */
-  private final SecurityLibrary security;
+  private final Kernel32 kernel32;
   
   public NativeLibraryManager() throws BackendNotSupportedException {
     try {
-      coreFoundation = (CoreFoundationLibrary) Native.load("CoreFoundation", CoreFoundationLibrary.class);
-      security = (SecurityLibrary) Native.load("Security", SecurityLibrary.class);
+      advapi32 = (Advapi32) Native.load("Advapi32", Advapi32.class);
+      kernel32 = (Kernel32) Native.load("Kernel32", Kernel32.class);
     } catch (UnsatisfiedLinkError ex) {
-      throw new BackendNotSupportedException("Failed to load native library");
+      throw new BackendNotSupportedException("Failed to load native library", ex);
     }
   }
-
-  public CoreFoundationLibrary getCoreFoundation() {
-    return coreFoundation;
+  
+  public Advapi32 getAdvapi32() {
+    return advapi32;
   }
 
-  public SecurityLibrary getSecurity() {
-    return security;
+  public Kernel32 getKernel32() {
+    return kernel32;
   }
-  
-  
 }

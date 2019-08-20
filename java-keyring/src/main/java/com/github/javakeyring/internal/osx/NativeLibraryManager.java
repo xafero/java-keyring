@@ -24,25 +24,42 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.javakeyring.util;
+package com.github.javakeyring.internal.osx;
+
+import com.github.javakeyring.BackendNotSupportedException;
+import com.sun.jna.Native;
 
 /**
- * Represents an error while lock operation.
+ * Global native library manager.
  */
-public class LockException extends Exception {
-  
-  private static final long serialVersionUID = 1L;
+class NativeLibraryManager {
 
   /**
-   * Initializes an instance of LockException.
-   *
-   * @param message
-   *          Error message
-   * @param innerException
-   *          rootCause
+   * An instance of CoreFoundationLibrary.
    */
-  public LockException(String message, Throwable innerException) {
-    super(message, innerException);
+  private final CoreFoundationLibrary coreFoundation;
+
+  /**
+   * An instance of SecurityLibrary.
+   */
+  private final SecurityLibrary security;
+  
+  public NativeLibraryManager() throws BackendNotSupportedException {
+    try {
+      coreFoundation = (CoreFoundationLibrary) Native.load("CoreFoundation", CoreFoundationLibrary.class);
+      security = (SecurityLibrary) Native.load("Security", SecurityLibrary.class);
+    } catch (UnsatisfiedLinkError ex) {
+      throw new BackendNotSupportedException("Failed to load native library");
+    }
   }
 
+  public CoreFoundationLibrary getCoreFoundation() {
+    return coreFoundation;
+  }
+
+  public SecurityLibrary getSecurity() {
+    return security;
+  }
+  
+  
 }

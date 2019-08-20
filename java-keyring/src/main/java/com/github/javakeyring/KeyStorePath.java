@@ -26,21 +26,24 @@
  */
 package com.github.javakeyring;
 
+import com.github.javakeyring.internal.KeyringBackend;
+
 /**
- * Represents an error while retrieving password.
+ * If a {@link KeyringBackend} supports changing target files, it will implement this interface as well.
  */
-public class PasswordSaveException extends Exception {
+public interface KeyStorePath {
 
-  private static final long serialVersionUID = 1L;
-  
   /**
-   * Initializes an instance of PasswordSaveException.
-   *
-   * @param message
-   *          Error message
+   * Gets path to key store.
+   * 
+   * @return a keystore path (if required by backend)
    */
-  public PasswordSaveException(String message) {
-    super(message);
-  }
+  public String getKeyStorePath();
 
-} // class PasswordSaveException
+  /**
+   * Sets path to key store.
+   *
+   * @param path Path to key store
+   */
+  public void setKeyStorePath(String path);
+}

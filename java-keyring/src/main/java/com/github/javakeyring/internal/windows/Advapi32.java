@@ -24,30 +24,65 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.javakeyring.gnome;
+package com.github.javakeyring.internal.windows;
 
 import com.sun.jna.Library;
-import com.sun.jna.Pointer;
-import com.sun.jna.ptr.IntByReference;
+import com.sun.jna.platform.win32.WinDef.DWORD;
 import com.sun.jna.ptr.PointerByReference;
 
 /**
- * GKLib.
+ * OS X CoreFoundation library.
  */
-@SuppressWarnings({"AbbreviationAsWordInName","ParameterName"})
-interface GKLib extends Library {
+@SuppressWarnings({"AbbreviationAsWordInName","ParameterName", "MethodName"})
+interface Advapi32 extends Library {
 
-  int gnome_keyring_unlock_sync(String keyring, String password);
+  /**
+   * Advapi32.lib
+   * @param TargetName name of credential in store
+   * @param Type cred type 
+   * @param Flags always zero
+   * @param Credential credential pointer
+   * @return success or failure.
+   */  
+  public boolean CredReadA(
+      String             TargetName,
+      DWORD              Type,
+      DWORD              Flags,
+      PointerByReference Credential
+      );
   
-  int gnome_keyring_item_get_info_full_sync(String keyring, int id, int flags, PointerByReference item_info);
-
-  void gnome_keyring_item_info_free(Pointer item_info);
-
-  String gnome_keyring_item_info_get_secret(Pointer item_info);
-
-  String gnome_keyring_result_to_message(int r);
-
-  int gnome_keyring_set_network_password_sync(String keyring, String user, String domain, String server, String object,
-      String protocol, String authtype, int port, String password, IntByReference item_id);
-
+  /**
+   * Advapi32.lib
+   * @param Credential credential pointer
+   * @param Flags always zero
+   * @return success or failure.
+   */  
+  public boolean CredWriteA(
+      CREDENTIAL         Credential,
+      DWORD              Flags
+      );
+  
+  /**
+   * Advapi32.lib
+   * @param Credential who's memory we'll free.
+   * @param Flags has one value, set to use existing credential memory or not.
+   * @return success or failure.
+   */
+  public boolean CredFree(
+      PointerByReference Credential
+      );
+    
+  /**
+   * Advapi32.lib
+   * @param TargetName name of credential in store
+   * @param Type cred type 
+   * @param Flags always zero
+   * @return success or failure.
+   */
+  public boolean CredDeleteA(
+      String TargetName,
+      DWORD  type,
+      DWORD  flags
+      );
+  
 }

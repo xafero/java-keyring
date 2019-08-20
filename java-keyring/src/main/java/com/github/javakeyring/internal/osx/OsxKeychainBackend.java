@@ -24,21 +24,20 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.javakeyring.osx;
+package com.github.javakeyring.internal.osx;
 
 import java.nio.charset.Charset;
 
 import com.github.javakeyring.BackendNotSupportedException;
-import com.github.javakeyring.KeyringBackend;
-import com.github.javakeyring.PasswordRetrievalException;
-import com.github.javakeyring.PasswordSaveException;
+import com.github.javakeyring.PasswordAccessException;
+import com.github.javakeyring.internal.KeyringBackend;
 import com.sun.jna.Platform;
 import com.sun.jna.Pointer;
 
 /**
  * Keyring backend which uses OS X Keychain.
  */
-public class OsxKeychainBackend extends KeyringBackend {
+public class OsxKeychainBackend implements KeyringBackend {
 
   private final NativeLibraryManager nativeLibraries;
   
@@ -55,14 +54,6 @@ public class OsxKeychainBackend extends KeyringBackend {
   }
 
   /**
-   * Returns true if the backend directory uses some file to store passwords.
-   */
-  @Override
-  public boolean isKeyStorePathRequired() {
-    return false;
-  }
-
-  /**
    * Gets password from key store.
    *
    * @param service
@@ -72,11 +63,11 @@ public class OsxKeychainBackend extends KeyringBackend {
    *
    * @return Password related to specified service and account
    *
-   * @throws PasswordRetrievalException
+   * @throws PasswordAccessException
    *           Thrown when an error happened while getting password
    */
   @Override
-  public String getPassword(String service, String account) throws PasswordRetrievalException {
+  public String getPassword(String service, String account) throws PasswordAccessException {
     byte[] serviceBytes;
     byte[] accountBytes;
     Charset charset = Charset.forName("UTF-8");
@@ -87,7 +78,7 @@ public class OsxKeychainBackend extends KeyringBackend {
     int status = nativeLibraries.getSecurity().SecKeychainFindGenericPassword(null, serviceBytes.length, serviceBytes,
         accountBytes.length, accountBytes, dataLength, data, null);
     if (status != 0) {
-      throw new PasswordRetrievalException(convertErrorCodeToMessage(status));
+      throw new PasswordAccessException(convertErrorCodeToMessage(status));
     }
     byte[] passwordBytes = data[0].getByteArray(0, dataLength[0]);
     nativeLibraries.getSecurity().SecKeychainItemFreeContent(null, data[0]);
@@ -104,11 +95,11 @@ public class OsxKeychainBackend extends KeyringBackend {
    * @param password
    *          Password
    *
-   * @throws PasswordSaveException
+   * @throws PasswordAccessException
    *           Thrown when an error happened while saving the password
    */
   @Override
-  public void setPassword(String service, String account, String password) throws PasswordSaveException {
+  public void setPassword(String service, String account, String password) throws PasswordAccessException {
     byte[] serviceBytes;
     byte[] accountBytes;
     byte[] passwordBytes;
@@ -121,7 +112,7 @@ public class OsxKeychainBackend extends KeyringBackend {
         accountBytes.length, accountBytes, null, null, itemRef);
 
     if (status != SecurityLibrary.ERR_SEC_SUCCESS && status != SecurityLibrary.ERR_SEC_ITEM_NOT_FOUND) {
-      throw new PasswordSaveException(convertErrorCodeToMessage(status));
+      throw new PasswordAccessException(convertErrorCodeToMessage(status));
     }
     if (itemRef[0] != null) {
       status = nativeLibraries.getSecurity().SecKeychainItemModifyContent(itemRef[0], null, passwordBytes.length,
@@ -132,7 +123,7 @@ public class OsxKeychainBackend extends KeyringBackend {
           serviceBytes, accountBytes.length, accountBytes, passwordBytes.length, passwordBytes, null);
     }
     if (status != 0) {
-      throw new PasswordSaveException(convertErrorCodeToMessage(status));
+      throw new PasswordAccessException(convertErrorCodeToMessage(status));
     }
   }
 
@@ -144,10 +135,10 @@ public class OsxKeychainBackend extends KeyringBackend {
    * @param account
    *          Account name
    *
-   * @throws PasswordSaveException
+   * @throws PasswordAccessException
    *           Thrown when an error happened while saving the password
    */
-  public void deletePassword(String service, String account) throws PasswordSaveException {
+  public void deletePassword(String service, String account) throws PasswordAccessException {
     byte[] serviceBytes;
     byte[] accountBytes;
     Charset charset = Charset.forName("UTF-8");
@@ -158,24 +149,14 @@ public class OsxKeychainBackend extends KeyringBackend {
         accountBytes.length, accountBytes, null, null, itemRef);
 
     if (status != SecurityLibrary.ERR_SEC_SUCCESS && status != SecurityLibrary.ERR_SEC_ITEM_NOT_FOUND) {
-      throw new PasswordSaveException(convertErrorCodeToMessage(status));
+      throw new PasswordAccessException(convertErrorCodeToMessage(status));
     }
     if (itemRef[0] != null) {
       status = nativeLibraries.getSecurity().SecKeychainItemDelete(itemRef[0]);
     }
     if (status != 0) {
-      throw new PasswordSaveException(convertErrorCodeToMessage(status));
+      throw new PasswordAccessException(convertErrorCodeToMessage(status));
     }
-  }  
-  
-  
-  
-  /**
-   * Gets backend ID.
-   */
-  @Override
-  public String getId() {
-    return "OSXKeychain";
   }
 
   /**

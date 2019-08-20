@@ -24,23 +24,28 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.javakeyring;
+package com.github.javakeyring.internal.osx;
+
+import com.sun.jna.Library;
+import com.sun.jna.Pointer;
 
 /**
- * Represents an error while retrieving password.
+ * OS X CoreFoundation library.
  */
-public class PasswordRetrievalException extends Exception {
+@SuppressWarnings({"MethodName","AbbreviationAsWordInName"})
+interface CoreFoundationLibrary extends Library {
 
-  private static final long serialVersionUID = 1L;
-  
-  /**
-   * Initializes an instance of PasswordRetrievalException.
-   *
-   * @param message
-   *          Error message
-   */
-  public PasswordRetrievalException(String message) {
-    super(message);
-  }
+  public long  // CFIndex
+      CFStringGetLength(
+      Pointer theString); // CFStringRef
 
-} // class PasswordRetrievalException
+  public char // UniChar
+      CFStringGetCharacterAtIndex(
+      Pointer theString, // CFStringRef
+      long idx); // CFIndex
+
+  public void
+      CFRelease(
+      Pointer cf); // CFTypeRef
+
+}

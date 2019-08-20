@@ -24,28 +24,16 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.javakeyring.osx;
+package com.github.javakeyring.internal.gnome;
 
 import com.sun.jna.Library;
-import com.sun.jna.Pointer;
 
 /**
- * OS X CoreFoundation library.
+ * GLib2 library.
  */
-@SuppressWarnings({"MethodName","AbbreviationAsWordInName"})
-interface CoreFoundationLibrary extends Library {
+@SuppressWarnings({"AbbreviationAsWordInName","MethodName"})
+interface GLIB2 extends Library {
 
-  public long  // CFIndex
-      CFStringGetLength(
-      Pointer theString); // CFStringRef
-
-  public char // UniChar
-      CFStringGetCharacterAtIndex(
-      Pointer theString, // CFStringRef
-      long idx); // CFIndex
-
-  public void
-      CFRelease(
-      Pointer cf); // CFTypeRef
+  void g_set_application_name(String string);
 
 }

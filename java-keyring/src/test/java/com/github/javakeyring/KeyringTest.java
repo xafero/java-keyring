@@ -31,7 +31,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import java.io.File;
 
@@ -48,7 +47,7 @@ import com.sun.jna.Platform;
 @RunWith(Junit4AopClassRunner.class)
 public class KeyringTest {
 
-  private static final String SERVICE = "net.east301.keyring unit test";
+  private static final String SERVICE = "net.east301.keyring-unit-test";
 
   private static final String ACCOUNT = "tester";
 
@@ -75,36 +74,34 @@ public class KeyringTest {
   @RestrictiveClassloader
   public void testCreateString() throws Exception {
     if (Platform.isMac()) {
-      assertThat(Keyring.create(Keyrings.OSXKeychain)).isNotNull();
+      assertThat(Keyring.create(Keyrings.OSX_KEYCHAIN)).isNotNull();
     } else if (Platform.isWindows()) {
-      assertThat(Keyring.create(Keyrings.WindowsDPAPI)).isNotNull();
+      assertThat(Keyring.create(Keyrings.WINDOWS_CREDENTIAL_STORE)).isNotNull();
     } else if (Platform.isLinux()) {
-      assertThat(Keyring.create(Keyrings.GNOMEKeyring)).isNotNull();
+      assertThat(Keyring.create(Keyrings.GNOME_KEYRING)).isNotNull();
     }
-    assertThat(Keyring.create(Keyrings.UnencryptedMemory)).isNotNull();
   }
 
   /**
-   * Test of getKeyStorePath method, of class Keyring.
-   */
-  @Test
-  @RestrictiveClassloader
-  public void testGetKeyStorePath() throws Exception {
-    Keyring keyring = Keyring.create();
-    assertNull(keyring.getKeyStorePath());
-    keyring.setKeyStorePath("/path/to/keystore");
-    assertEquals("/path/to/keystore", keyring.getKeyStorePath());
-  }
-
-  /**
-   * Test of setKeyStorePath method, of class Keyring.
+   * Test of get/setKeyStorePath method, of class Keyring.
    */
   @Test
   @RestrictiveClassloader
   public void testSetKeyStorePath() throws Exception {
     Keyring keyring = Keyring.create();
-    keyring.setKeyStorePath("/path/to/keystore");
-    assertEquals("/path/to/keystore", keyring.getKeyStorePath());
+    if (keyring.isKeyStorePathSupported()) {
+      keyring.setKeyStorePath("/path/to/keystore");
+      assertEquals("/path/to/keystore", keyring.getKeyStorePath());
+      assertThat(keyring.isKeyStorePathSupported()).isTrue();
+      assertThat(keyring.getKeyrings())
+          .as("Keyring type should be gnome keyring")
+          .isEqualTo(Keyrings.GNOME_KEYRING);
+    } else {
+      assertThat(keyring.getKeyrings())
+          .as("Gnome Keyring should have tested the keystore path")
+          .isNotEqualTo(Keyrings.GNOME_KEYRING);
+      assertThat(keyring.isKeyStorePathSupported()).isFalse();
+    }
   }
 
 
@@ -115,7 +112,7 @@ public class KeyringTest {
   @RestrictiveClassloader
   public void testPasswordFlow() throws Exception {
     Keyring keyring = Keyring.create();
-    if (keyring.isKeyStorePathRequired()) {
+    if (keyring.isKeyStorePathSupported()) {
       keyring.setKeyStorePath(File.createTempFile(KEYSTORE_PREFIX, KEYSTORE_SUFFIX).getPath());
     }
     catchThrowable(() -> keyring.deletePassword(SERVICE, ACCOUNT));
@@ -123,7 +120,7 @@ public class KeyringTest {
     keyring.setPassword(SERVICE, ACCOUNT, PASSWORD);
     assertThat(keyring.getPassword(SERVICE, ACCOUNT)).isEqualTo(PASSWORD);
     keyring.deletePassword(SERVICE, ACCOUNT);
-    assertThatThrownBy(() -> keyring.getPassword(SERVICE, ACCOUNT)).isInstanceOf(PasswordRetrievalException.class);
+    assertThatThrownBy(() -> keyring.getPassword(SERVICE, ACCOUNT)).isInstanceOf(PasswordAccessException.class);
   }
 
   private static void checkExistanceOfPasswordEntry(Keyring keyring) {

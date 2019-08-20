@@ -24,42 +24,23 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.javakeyring.gnome;
-
-import com.github.javakeyring.BackendNotSupportedException;
-import com.sun.jna.Native;
+package com.github.javakeyring;
 
 /**
- * Global native library manager.
+ * Represents an error while retrieving password.
  */
-class NativeLibraryManager {
+public class PasswordAccessException extends Exception {
 
+  private static final long serialVersionUID = 1L;
+  
   /**
-   * An instance of CoreFoundationLibrary.
+   * Initializes an instance of PasswordRetrievalException.
+   *
+   * @param message
+   *          Error message
    */
-  private final GLIB2 glib2;
-
-  /**
-   * An instance of SecurityLibrary.
-   */
-  private final GKLib gklib;
-  
-  public NativeLibraryManager() throws BackendNotSupportedException {
-    try {
-      glib2 = (GLIB2) Native.load("glib-2.0", GLIB2.class);
-      gklib = (GKLib) Native.load("gnome-keyring", GKLib.class);
-    } catch (UnsatisfiedLinkError ex) {
-      throw new BackendNotSupportedException("Failed to load native library");
-    }
+  public PasswordAccessException(String message) {
+    super(message);
   }
 
-  public GLIB2 getGlib2() {
-    return glib2;
-  }
-
-  public GKLib getGklib() {
-    return gklib;
-  }
-  
-  
-}
+} // class PasswordRetrievalException

@@ -24,35 +24,43 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.github.javakeyring.windows;
+package com.github.javakeyring.internal;
 
-import java.io.Serializable;
+import com.github.javakeyring.KeyStorePath;
+import com.github.javakeyring.PasswordAccessException;
 
 /**
- * Password Entry.
+ * <p>
+ * java-keyring backend interface.
+ * </p>
+ * May also implement {@link KeyStorePath} if there is support for backing files on they file system.
  */
-class PasswordEntry implements Serializable {
-
-  private static final long serialVersionUID = 1L;
+public interface KeyringBackend {
 
   /**
-   * Service name.
+   * Returns true when the back end is supported.
+   *
+   * @return true if the back end will function on the machine.
    */
-  private String service;
+  public boolean isSupported();
 
   /**
-   * Account name.
+   * Gets password from key store.
+   *
+   * @param service
+   *          Service name
+   * @param account
+   *          Account name
+   *
+   * @return Password related to specified service and account
+   *
+   * @throws PasswordAccessException
+   *           Thrown when an error happened while getting password
    */
-  private String account;
+  public String getPassword(String service, String account) throws PasswordAccessException;
 
   /**
-   * Password.
-   */
-  private byte[] password;
-
-  
-  /**
-   * Initializes an instance of PasswordEntry.
+   * Sets password to key store.
    *
    * @param service
    *          Service name
@@ -60,53 +68,23 @@ class PasswordEntry implements Serializable {
    *          Account name
    * @param password
    *          Password
+   *
+   * @throws PasswordAccessException
+   *           Thrown when an error happened while saving the password
    */
-  public PasswordEntry(String service, String account, byte[] password) {
-    this.service = service;
-    this.account = account;
-    this.password = password;
-  }
+  public void setPassword(String service, String account, String password)
+      throws PasswordAccessException;
 
   /**
-   * Returns service name.
+   * Deletes password from keystore.
+   *
+   * @param service
+   *          Service name
+   * @param account
+   *          Account name
+   *
+   * @throws PasswordAccessException
+   *           Thrown when an error happened while saving the password
    */
-  public String getService() {
-    return service;
-  }
-
-  /**
-   * Sets service name.
-   */
-  public void setService(String service) {
-    this.service = service;
-  }
-
-  /**
-   * Returns account name.
-   */
-  public String getAccount() {
-    return account;
-  }
-
-  /**
-   * Sets account name.
-   */
-  public void setAccount(String account) {
-    this.account = account;
-  }
-
-  /**
-   * Returns password.
-   */
-  public byte[] getPassword() {
-    return password;
-  }
-
-  /**
-   * Sets password.
-   */
-  public void setPassword(byte[] password) {
-    this.password = password;
-  }
-
+  public void deletePassword(String service, String account) throws PasswordAccessException;
 }

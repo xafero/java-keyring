@@ -26,16 +26,17 @@
  */
 package com.github.javakeyring;
 
-import com.github.javakeyring.gnome.GnomeKeyringBackend;
-import com.github.javakeyring.memory.UnencryptedMemoryBackend;
-import com.github.javakeyring.osx.OsxKeychainBackend;
-import com.github.javakeyring.windows.WindowsDpApiBackend;
+import java.util.Arrays;
+
+import com.github.javakeyring.internal.KeyringBackend;
+import com.github.javakeyring.internal.gnome.GnomeKeyringBackend;
+import com.github.javakeyring.internal.osx.OsxKeychainBackend;
+import com.github.javakeyring.internal.windows.WinCredentialStoreBackend;
 
 public enum Keyrings {
-  OSXKeychain(OsxKeychainBackend.class),
-  GNOMEKeyring(GnomeKeyringBackend.class),
-  WindowsDPAPI(WindowsDpApiBackend.class),
-  UnencryptedMemory(UnencryptedMemoryBackend.class);
+  OSX_KEYCHAIN(OsxKeychainBackend.class),
+  GNOME_KEYRING(GnomeKeyringBackend.class),
+  WINDOWS_CREDENTIAL_STORE(WinCredentialStoreBackend.class);
   
   private final Class<? extends KeyringBackend> supportingClass;
       
@@ -45,5 +46,13 @@ public enum Keyrings {
   
   public Class<? extends KeyringBackend> getSupportingClass() {
     return supportingClass;
+  }
+  
+  public static Keyrings getLabelForBackend(Class<? extends KeyringBackend> backendClass) {
+    return Arrays.asList(Keyrings.values())
+        .stream()
+        .filter(keyring -> keyring.supportingClass == backendClass)
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException(backendClass + " is not backed by an enum value in Keyrings"));
   }
 }
