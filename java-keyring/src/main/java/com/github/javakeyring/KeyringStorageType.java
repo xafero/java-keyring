@@ -33,14 +33,14 @@ import com.github.javakeyring.internal.gnome.GnomeKeyringBackend;
 import com.github.javakeyring.internal.osx.OsxKeychainBackend;
 import com.github.javakeyring.internal.windows.WinCredentialStoreBackend;
 
-public enum Keyrings {
+public enum KeyringStorageType {
   OSX_KEYCHAIN(OsxKeychainBackend.class),
   GNOME_KEYRING(GnomeKeyringBackend.class),
   WINDOWS_CREDENTIAL_STORE(WinCredentialStoreBackend.class);
   
   private final Class<? extends KeyringBackend> supportingClass;
       
-  private Keyrings(Class<? extends KeyringBackend> backendClass) {
+  private KeyringStorageType(Class<? extends KeyringBackend> backendClass) {
     this.supportingClass = backendClass;
   }
   
@@ -48,11 +48,13 @@ public enum Keyrings {
     return supportingClass;
   }
   
-  public static Keyrings getLabelForBackend(Class<? extends KeyringBackend> backendClass) {
-    return Arrays.asList(Keyrings.values())
+  public static KeyringStorageType getLabelForBackend(Class<? extends KeyringBackend> backendClass) {
+    return Arrays.asList(KeyringStorageType.values())
         .stream()
         .filter(keyring -> keyring.supportingClass == backendClass)
         .findFirst()
-        .orElseThrow(() -> new IllegalArgumentException(backendClass + " is not backed by an enum value in Keyrings"));
+        .orElseThrow(() -> new IllegalArgumentException(backendClass 
+                + " is not backed by an enum value in "
+                + KeyringStorageType.class));
   }
 }

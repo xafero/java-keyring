@@ -74,11 +74,11 @@ public class KeyringTest {
   @RestrictiveClassloader
   public void testCreateString() throws Exception {
     if (Platform.isMac()) {
-      assertThat(Keyring.create(Keyrings.OSX_KEYCHAIN)).isNotNull();
+      assertThat(Keyring.create(KeyringStorageType.OSX_KEYCHAIN)).isNotNull();
     } else if (Platform.isWindows()) {
-      assertThat(Keyring.create(Keyrings.WINDOWS_CREDENTIAL_STORE)).isNotNull();
+      assertThat(Keyring.create(KeyringStorageType.WINDOWS_CREDENTIAL_STORE)).isNotNull();
     } else if (Platform.isLinux()) {
-      assertThat(Keyring.create(Keyrings.GNOME_KEYRING)).isNotNull();
+      assertThat(Keyring.create(KeyringStorageType.GNOME_KEYRING)).isNotNull();
     }
   }
 
@@ -93,13 +93,13 @@ public class KeyringTest {
       keyring.setKeyStorePath("/path/to/keystore");
       assertEquals("/path/to/keystore", keyring.getKeyStorePath());
       assertThat(keyring.isKeyStorePathSupported()).isTrue();
-      assertThat(keyring.getKeyrings())
+      assertThat(keyring.getKeyringStorageType())
           .as("Keyring type should be gnome keyring")
-          .isEqualTo(Keyrings.GNOME_KEYRING);
+          .isEqualTo(KeyringStorageType.GNOME_KEYRING);
     } else {
-      assertThat(keyring.getKeyrings())
+      assertThat(keyring.getKeyringStorageType())
           .as("Gnome Keyring should have tested the keystore path")
-          .isNotEqualTo(Keyrings.GNOME_KEYRING);
+          .isNotEqualTo(KeyringStorageType.GNOME_KEYRING);
       assertThat(keyring.isKeyStorePathSupported()).isFalse();
     }
   }
@@ -125,7 +125,7 @@ public class KeyringTest {
 
   private static void checkExistanceOfPasswordEntry(Keyring keyring) {
     assertThatThrownBy(() -> keyring.getPassword(SERVICE, ACCOUNT))
-       .as("Please remove password entry '%s' " + "by using Keychain Access before running the tests", SERVICE)
+       .as("Please remove password entry '%s' by using '%s' before running the tests", SERVICE, keyring.getKeyringStorageType())
        .isNotNull();
   }
 }

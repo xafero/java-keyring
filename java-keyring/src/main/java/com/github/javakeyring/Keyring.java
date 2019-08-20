@@ -35,7 +35,7 @@ import com.github.javakeyring.internal.KeyringBackendFactory;
 public class Keyring {
 
   /**
-   * Keyring backend.
+   * Keyring Storage Back end.
    */
   private final KeyringBackend backend;
   
@@ -56,7 +56,7 @@ public class Keyring {
    * @return a functional Keyring or a BackendNotSupportedException is thrown.
    * @throws BackendNotSupportedException if the default backend for the operating system is unsupported.
    */
-  public static Keyring create(Keyrings keyring) throws BackendNotSupportedException {
+  public static Keyring create(KeyringStorageType keyring) throws BackendNotSupportedException {
     return new Keyring(KeyringBackendFactory.create(keyring));
   }
 
@@ -79,7 +79,9 @@ public class Keyring {
     if (isKeyStorePathSupported()) {
       return ((KeyStorePath) backend).getKeyStorePath();
     } else {
-      throw new UnsupportedOperationException(KeyStorePath.class.getSimpleName() + " is not supported on " + getKeyrings());
+      throw new UnsupportedOperationException(KeyStorePath.class.getSimpleName()
+              + " is not supported on "
+              + getKeyringStorageType());
     }
   }
 
@@ -93,12 +95,14 @@ public class Keyring {
     if (isKeyStorePathSupported()) {
       ((KeyStorePath) backend).setKeyStorePath(path);
     } else {
-      throw new UnsupportedOperationException(KeyStorePath.class.getSimpleName() + " is not supported on " + getKeyrings());
+      throw new UnsupportedOperationException(KeyStorePath.class.getSimpleName() 
+              + " is not supported on "
+              + getKeyringStorageType());
     }
   }
 
-  public Keyrings getKeyrings() {
-    return Keyrings.getLabelForBackend(backend.getClass());
+  public KeyringStorageType getKeyringStorageType() {
+    return KeyringStorageType.getLabelForBackend(backend.getClass());
   }
   
   /**

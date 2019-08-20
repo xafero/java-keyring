@@ -27,7 +27,7 @@
 package com.github.javakeyring.internal;
 
 import com.github.javakeyring.BackendNotSupportedException;
-import com.github.javakeyring.Keyrings;
+import com.github.javakeyring.KeyringStorageType;
 
 /**
  * Factory of KeyringBackend.
@@ -38,11 +38,11 @@ public class KeyringBackendFactory {
    * Creates an instance of KeyringBackend.
    * @return the KeyringBackend.
    * @throws BackendNotSupportedException 
-   *     should the preferred {@link Keyrings} not start of this system.
+   *     should the preferred {@link KeyringStorageType} not start of this system.
    *     
    */
   public static KeyringBackend create() throws BackendNotSupportedException {
-    for (Keyrings keyRing : Keyrings.values()) {
+    for (KeyringStorageType keyRing : KeyringStorageType.values()) {
       KeyringBackend backend = tryToCreateBackend(keyRing);
       if (backend != null) {
         return backend;
@@ -58,9 +58,9 @@ public class KeyringBackendFactory {
    *          Preferred backend name
    * @return Creates an instance of KeyringBackend.
    * @throws BackendNotSupportedException 
-   *          should the preferred {@link Keyrings} not start of this system.
+   *          should the preferred {@link KeyringStorageType} not start of this system.
    */
-  public static KeyringBackend create(Keyrings preferred) throws BackendNotSupportedException {
+  public static KeyringBackend create(KeyringStorageType preferred) throws BackendNotSupportedException {
     KeyringBackend backend = tryToCreateBackend(preferred);
     if (backend == null) {
       throw new BackendNotSupportedException(String.format("The backend '%s' is not supported", preferred));
@@ -74,7 +74,7 @@ public class KeyringBackendFactory {
    * @param backendClass
    *          Target backend class
    */
-  private static KeyringBackend tryToCreateBackend(Keyrings keyring) {
+  private static KeyringBackend tryToCreateBackend(KeyringStorageType keyring) {
     KeyringBackend backend;
     try {
       backend = (KeyringBackend) keyring
