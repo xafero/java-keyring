@@ -33,28 +33,24 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.github.advisedtesting.junit4.Junit4AopClassRunner;
 import com.sun.jna.Platform;
 
 /**
  * Test of Keyring class.
  */
-@RunWith(Junit4AopClassRunner.class)
 public class KeyringTest {
 
-  private static final String SERVICE = "net.east301.keyring-unit-test";
+  private static final String SERVICE = "com.github.javakeyring.test";
 
-  private static final String ACCOUNT = "tester";
+  private static final String ACCOUNT = "username";
 
-  private static final String PASSWORD = "HogeHoge2012";
+  private static final String PASSWORD = "password";
   
   /**
    * Test of create method, of class Keyring.
    */
   @Test
-  //@RestrictiveClassloader
   public void testCreateZeroArgs() throws Exception {
     Keyring keyring = Keyring.create();
     assertNotNull(keyring);
@@ -64,14 +60,25 @@ public class KeyringTest {
    * Test of create method, of class Keyring.
    */
   @Test
-  //@RestrictiveClassloader
   public void testCreateString() throws Exception {
     if (Platform.isMac()) {
       assertThat(Keyring.create(KeyringStorageType.OSX_KEYCHAIN)).isNotNull();
+      assertThatThrownBy(() -> Keyring.create(KeyringStorageType.WINDOWS_CREDENTIAL_STORE))
+         .isInstanceOf(BackendNotSupportedException.class);
+      assertThatThrownBy(() -> Keyring.create(KeyringStorageType.GNOME_KEYRING))
+          .isInstanceOf(BackendNotSupportedException.class);
     } else if (Platform.isWindows()) {
       assertThat(Keyring.create(KeyringStorageType.WINDOWS_CREDENTIAL_STORE)).isNotNull();
+      assertThatThrownBy(() -> Keyring.create(KeyringStorageType.OSX_KEYCHAIN))
+          .isInstanceOf(BackendNotSupportedException.class);
+      assertThatThrownBy(() -> Keyring.create(KeyringStorageType.GNOME_KEYRING))
+          .isInstanceOf(BackendNotSupportedException.class);
     } else if (Platform.isLinux()) {
       assertThat(Keyring.create(KeyringStorageType.GNOME_KEYRING)).isNotNull();
+      assertThatThrownBy(() -> Keyring.create(KeyringStorageType.OSX_KEYCHAIN))
+          .isInstanceOf(BackendNotSupportedException.class);
+      assertThatThrownBy(() -> Keyring.create(KeyringStorageType.WINDOWS_CREDENTIAL_STORE))
+          .isInstanceOf(BackendNotSupportedException.class);
     }
   }
 
@@ -79,7 +86,6 @@ public class KeyringTest {
    * Test of get/setKeyStorePath method, of class Keyring.
    */
   @Test
-  //@RestrictiveClassloader
   public void testSetKeyStorePath() throws Exception {
     Keyring keyring = Keyring.create();
     if (keyring.isKeyStorePathSupported()) {
@@ -94,6 +100,8 @@ public class KeyringTest {
           .as("Gnome Keyring should have tested the keystore path")
           .isNotEqualTo(KeyringStorageType.GNOME_KEYRING);
       assertThat(keyring.isKeyStorePathSupported()).isFalse();
+      assertThatThrownBy(() -> keyring.getKeyStorePath()).isInstanceOf(UnsupportedOperationException.class);
+      assertThatThrownBy(() -> keyring.setKeyStorePath("")).isInstanceOf(UnsupportedOperationException.class);
     }
   }
 
@@ -102,7 +110,6 @@ public class KeyringTest {
    * Test of getPassword method, of class OSXKeychainBackend.
    */
   @Test
-  //@RestrictiveClassloader
   public void testPasswordFlow() throws Exception {
     Keyring keyring = Keyring.create();
     catchThrowable(() -> keyring.deletePassword(SERVICE, ACCOUNT));
@@ -113,6 +120,35 @@ public class KeyringTest {
     keyring.setPassword(SERVICE, ACCOUNT, PASSWORD + "1");
     assertThat(keyring.getPassword(SERVICE, ACCOUNT)).isEqualTo(PASSWORD + "1");
     keyring.deletePassword(SERVICE, ACCOUNT);
+    assertThatThrownBy(() -> keyring.getPassword(SERVICE, ACCOUNT)).isInstanceOf(PasswordAccessException.class);
+  }
+  
+
+  /**
+   * Test of getPassword method, of class OSXKeychainBackend.
+   */
+  @Test
+  public void testNoCollisions() throws Exception {
+    Keyring keyring = Keyring.create();
+    
+    //ensure empty keychain
+    catchThrowable(() -> keyring.deletePassword(SERVICE, ACCOUNT));
+    assertThatThrownBy(() -> keyring.deletePassword(SERVICE, ACCOUNT)).isInstanceOf(PasswordAccessException.class);
+    
+    catchThrowable(() -> keyring.deletePassword(SERVICE, ACCOUNT + "1"));
+    assertThatThrownBy(() -> keyring.deletePassword(SERVICE, ACCOUNT + "1")).isInstanceOf(PasswordAccessException.class);
+    
+    //create passwords
+    keyring.setPassword(SERVICE, ACCOUNT, PASSWORD);
+    keyring.setPassword(SERVICE, ACCOUNT + "1", PASSWORD + "1");
+    
+    //verify both passwords
+    assertThat(keyring.getPassword(SERVICE, ACCOUNT + "1")).isEqualTo(PASSWORD + "1");
+    assertThat(keyring.getPassword(SERVICE, ACCOUNT)).isEqualTo(PASSWORD);
+
+    //delete them both
+    keyring.deletePassword(SERVICE, ACCOUNT);
+    keyring.deletePassword(SERVICE, ACCOUNT + "1");
     assertThatThrownBy(() -> keyring.getPassword(SERVICE, ACCOUNT)).isInstanceOf(PasswordAccessException.class);
   }
 

@@ -46,12 +46,11 @@ import com.sun.jna.Platform;
  * Test of WindowsDPAPIBackend class.
  */
 public class WinCredentialStoreBackendTest {
+  private static final String SERVICE = "com.github.javakeyring.wincred.test";
 
-  private static final String SERVICE = "net.east301.keyring.windows-unit-test";
+  private static final String ACCOUNT = "username_wincred";
 
-  private static final String ACCOUNT = "tester";
-
-  private static final String PASSWORD = "HogeHoge2012";
+  private static final String PASSWORD = "password_wincred";
 
   /**
    * Test of isSupported method, of class WindowsDPAPIBackend.

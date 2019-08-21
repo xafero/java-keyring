@@ -45,11 +45,11 @@ import com.sun.jna.Platform;
  */
 public class GnomeKeyringBackedTest {
 
-  private static final String SERVICE = "net.east301.keyring.gnome";
+  private static final String SERVICE = "com.github.javakeyring.gnome.test";
 
-  private static final String ACCOUNT = "testerpart2";
+  private static final String ACCOUNT = "username_gnome";
 
-  private static final String PASSWORD = "HogeHoge2012part2";
+  private static final String PASSWORD = "password_gnome";	  
   
   private static final String KEYSTORE_PREFIX = "keystore";
 

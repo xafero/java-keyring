@@ -43,11 +43,11 @@ import com.sun.jna.Platform;
  */
 public class OsxKeychainBackendTest {
 
-  private static final String SERVICE = "net.east301.keyring.osx";
+  private static final String SERVICE = "com.github.javakeyring.osx.test";
 
-  private static final String ACCOUNT = "testerpart2";
+  private static final String ACCOUNT = "username_osx";
 
-  private static final String PASSWORD = "HogeHoge2012part2";
+  private static final String PASSWORD = "password_osx";	
 
   /**
    * Test of setup method, of class OSXKeychainBackend.
