@@ -134,15 +134,19 @@ public class GnomeKeyringBackend implements KeyringBackend, KeyStorePath {
    *          Service name
    * @param account
    *          Account name
-   *
    * @throws PasswordAccessException
-   *           Thrown when an error happened while saving the password
+   *           Thrown when an error happened while deleting the password
    */
   @Override
   public void deletePassword(String service, String account) throws PasswordAccessException {
     Map<String, Integer> map = loadMap();
-    map.remove(service + "/" + account);
-    saveMap(map);
+    String key = service + "/" + account;
+    if (map.containsKey(key)) {
+      map.remove(key);
+      saveMap(map);
+    } else {
+      throw new PasswordAccessException("Item was not found in keyring: "+ key);
+    }
   }
 
   /**

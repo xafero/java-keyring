@@ -82,9 +82,8 @@ public interface KeyringBackend {
    *          Service name
    * @param account
    *          Account name
-   *
    * @throws PasswordAccessException
-   *           Thrown when an error happened while saving the password
+   *           Thrown when an error happened while deleting the password (including if it is not found).
    */
   public void deletePassword(String service, String account) throws PasswordAccessException;
 }
