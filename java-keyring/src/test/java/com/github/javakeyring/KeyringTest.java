@@ -122,6 +122,7 @@ public class KeyringTest {
     Keyring keyring = Keyring.create();
     catchThrowable(() -> keyring.deletePassword(SERVICE, ACCOUNT1));
     assertThatThrownBy(() -> keyring.deletePassword(SERVICE, ACCOUNT1)).isInstanceOf(PasswordAccessException.class);
+    assertThatThrownBy(() -> keyring.getPassword(SERVICE, ACCOUNT1)).isInstanceOf(PasswordAccessException.class);
     keyring.setPassword(SERVICE, ACCOUNT1, PASSWORD1);
     assertThat(keyring.getPassword(SERVICE, ACCOUNT1)).isEqualTo(PASSWORD1);
     //overwrite password
@@ -142,9 +143,11 @@ public class KeyringTest {
     //ensure empty keychain
     catchThrowable(() -> keyring.deletePassword(SERVICE, ACCOUNT2));
     assertThatThrownBy(() -> keyring.deletePassword(SERVICE, ACCOUNT2)).isInstanceOf(PasswordAccessException.class);
+    assertThatThrownBy(() -> keyring.getPassword(SERVICE, ACCOUNT2)).isInstanceOf(PasswordAccessException.class);
     
     catchThrowable(() -> keyring.deletePassword(SERVICE, ACCOUNT3));
     assertThatThrownBy(() -> keyring.deletePassword(SERVICE, ACCOUNT3)).isInstanceOf(PasswordAccessException.class);
+    assertThatThrownBy(() -> keyring.getPassword(SERVICE, ACCOUNT3)).isInstanceOf(PasswordAccessException.class);
     
     //create passwords
     keyring.setPassword(SERVICE, ACCOUNT2, PASSWORD2);
