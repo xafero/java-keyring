@@ -43,7 +43,7 @@ import com.sun.jna.Platform;
  */
 public class OsxKeychainBackendTest {
 
-  private static final String SERVICE = "net.east301.keyring.osx.part2 unit test";
+  private static final String SERVICE = "net.east301.keyring.osx";
 
   private static final String ACCOUNT = "testerpart2";
 

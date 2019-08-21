@@ -26,13 +26,14 @@ java-keyring is a small library which provides java API to store password etc. s
 Currently Mac OS X, Windows and Linux (GNOME) are supported.
 
 __Mac OS X__
-*   Passwords are stored using [OS X Keychain](http://developer.apple.com/documentation/Security/)  
+*   Passwords are stored using [OS X Keychain](https://support.apple.com/guide/keychain-access/welcome/mac) using [Keychain Services](https://developer.apple.com/documentation/security/keychain_services/keychain_items) api via "Legacy Password Storage". 
   
 __Linux__
-*   Passwords are stored using [GNOME Keyring](https://wiki.gnome.org/Projects/GnomeKeyring) and a supporting data file that uses [ObjectOutputStream](http://docs.oracle.com/javase/6/docs/api/java/io/ObjectOutputStream.html) etc.
+*   Passwords are stored using [GNOME Keyring](https://wiki.gnome.org/Projects/GnomeKeyring) and a supporting data file that uses [ObjectOutputStream](http://docs.oracle.com/javase/6/docs/api/java/io/ObjectOutputStream.html) etc. via [Gnome's Keyring Items](https://developer.gnome.org/gnome-keyring/stable/gnome-keyring-Keyring-Items.html) api, may eventually switch to Freedesktop's Dbus [Secret Service](https://specifications.freedesktop.org/secret-service/).
 
 __Windows__
-*   Passwords are encrypted by [Data Protection API](http://msdn.microsoft.com/en-us/library/ms995355.aspx) and stored in a file using [ObjectOutputStream](http://docs.oracle.com/javase/6/docs/api/java/io/ObjectOutputStream.html) etc.
+*   Passwords are encrypted by [Credential Manager](https://support.microsoft.com/en-us/help/4026814/windows-accessing-credential-manager), exceptions will contain [Error Codes](https://docs.microsoft.com/en-us/windows/win32/debug/system-error-codes).   Access is via the [Wincred](https://docs.microsoft.com/en-us/windows/win32/api/wincred/) api.  
+
 
 ## Source code tree ##
 

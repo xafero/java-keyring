@@ -32,8 +32,6 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.File;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -51,10 +49,6 @@ public class KeyringTest {
   private static final String ACCOUNT = "tester";
 
   private static final String PASSWORD = "HogeHoge2012";
-
-  private static final String KEYSTORE_PREFIX = "keystore";
-
-  private static final String KEYSTORE_SUFFIX = ".keystore";
   
   /**
    * Test of create method, of class Keyring.
@@ -111,9 +105,6 @@ public class KeyringTest {
   //@RestrictiveClassloader
   public void testPasswordFlow() throws Exception {
     Keyring keyring = Keyring.create();
-    if (keyring.isKeyStorePathSupported()) {
-      keyring.setKeyStorePath(File.createTempFile(KEYSTORE_PREFIX, KEYSTORE_SUFFIX).getPath());
-    }
     catchThrowable(() -> keyring.deletePassword(SERVICE, ACCOUNT));
     assertThatThrownBy(() -> keyring.deletePassword(SERVICE, ACCOUNT)).isInstanceOf(PasswordAccessException.class);
     keyring.setPassword(SERVICE, ACCOUNT, PASSWORD);

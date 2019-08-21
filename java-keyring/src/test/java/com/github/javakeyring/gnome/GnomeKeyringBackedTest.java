@@ -45,7 +45,7 @@ import com.sun.jna.Platform;
  */
 public class GnomeKeyringBackedTest {
 
-  private static final String SERVICE = "net.east301.keyring.osx.part2 unit test";
+  private static final String SERVICE = "net.east301.keyring.gnome";
 
   private static final String ACCOUNT = "testerpart2";
 

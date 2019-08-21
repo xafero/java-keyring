@@ -177,7 +177,6 @@ public class GnomeKeyringBackend implements KeyringBackend, KeyStorePath {
    *           Thrown when an error happened while writing to a file
    */
   private void saveMap(Map<String, Integer> map) throws PasswordAccessException {
-
     try {
       ObjectOutputStream fout = new ObjectOutputStream(new FileOutputStream(keyStorePath));
       try {
