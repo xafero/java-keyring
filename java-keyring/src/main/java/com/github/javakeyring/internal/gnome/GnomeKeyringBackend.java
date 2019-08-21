@@ -51,7 +51,7 @@ import com.sun.jna.ptr.PointerByReference;
  */
 public class GnomeKeyringBackend implements KeyringBackend, KeyStorePath {
 
-  private String keyStorePath = "keystore.keystore";
+  private String keyStorePath = "keystore.keystore".intern();
 
   private final NativeLibraryManager libraries;
   
@@ -79,8 +79,8 @@ public class GnomeKeyringBackend implements KeyringBackend, KeyStorePath {
   @Override
   public String getPassword(String service, String account) throws PasswordAccessException {
     PointerByReference ptr = new PointerByReference();
-    Map<String, Integer> map = loadMap();
-    Integer id = map.get(service + "/" + account);
+    String key = service + "/" + account;
+    Integer id = updateMap(key, null, Action.GET);
     if (id == null) {
       throw new PasswordAccessException("No password stored for this service and account.");
     }
@@ -106,18 +106,15 @@ public class GnomeKeyringBackend implements KeyringBackend, KeyStorePath {
    *           Thrown when an error happened while saving the password
    */
   @Override
-  public void  setPassword(String service, String account, String password) throws PasswordAccessException {
+  public void setPassword(String service, String account, String password) throws PasswordAccessException {
     IntByReference ref = new IntByReference();
     int result = libraries.getGklib().gnome_keyring_set_network_password_sync(null, account, null, service, null,
         null, null, 0, password, ref);
     if (result != 0) {
       throw new PasswordAccessException(libraries.getGklib().gnome_keyring_result_to_message(result));
     }
-    synchronized (keyStorePath) {
-      Map<String, Integer> map = loadMap();
-      map.put(service + "/" + account, ref.getValue());
-      saveMap(map);
-    }
+    String key = service + "/" + account;
+    updateMap(key, ref.getValue(), Action.SAVE);
   }
   
   /**
@@ -132,18 +129,41 @@ public class GnomeKeyringBackend implements KeyringBackend, KeyStorePath {
    */
   @Override
   public void deletePassword(String service, String account) throws PasswordAccessException {
-    synchronized (keyStorePath) {
-      Map<String, Integer> map = loadMap();
-      String key = service + "/" + account;
-      if (map.containsKey(key)) {
-        map.remove(key);
-        saveMap(map);
-      } else {
-        throw new PasswordAccessException("Item was not found in keyring: "+ key);
-      }
+    String key = service + "/" + account;
+    Integer deletedValue = updateMap(key, null, Action.DELETE);
+    if (deletedValue == null) {
+      throw new PasswordAccessException("Item was not found in keyring: " + key);
     }
   }
 
+  enum Action {
+    GET,
+    DELETE,
+    SAVE
+  }
+  
+  private Integer updateMap(String key, Integer value, Action action) throws PasswordAccessException {
+    synchronized (keyStorePath) {
+      Map<String, Integer> map = loadMap();
+      switch (action) {
+        case GET :
+          return map.get(key);
+        case DELETE :
+          Integer deletedValue = map.remove(key);
+          if (deletedValue != null) {
+            saveMap(map);
+          }
+          return deletedValue;
+        case SAVE:  
+          Integer oldValue = map.put(key, value);
+          saveMap(map);
+          return oldValue;
+        default:
+          return null;
+      }
+    }
+  }
+  
   /**
    * Loads map from a file. This method is not thread/process safe.
    */
@@ -197,7 +217,7 @@ public class GnomeKeyringBackend implements KeyringBackend, KeyStorePath {
 
   @Override
   public void setKeyStorePath(String path) {
-    keyStorePath = path;
+    keyStorePath = path.intern();
   }
 
 }
