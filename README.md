@@ -8,7 +8,6 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/13a3630bfb6b4bfc90f3e53f838b0ab3)](https://www.codacy.com/app/javakeyring/java-keyring?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=javakeyring/java-keyring&amp;utm_campaign=Badge_Grade)
 [![codecov](https://codecov.io/gh/javakeyring/java-keyring/branch/master/graph/badge.svg)](https://codecov.io/gh/javakeyring/java-keyring)
 
-
 ## Summary ##
 
 <img align="left" width="180" height="180" src="./src/site/resources/javakeyring.png">
@@ -20,16 +19,16 @@ Currently Mac OS X, Windows and Linux (GNOME) are supported.
 ## History ##
 
 Initially an abandoned bitbucket repo, but lotsa love has been given to it.
- * Proper windows credential store access.
- * Delete support.
- * Solid testing.
- * Automated builds in all target environements.
+*   Proper windows credential store access.
+*   Delete support.
+*   Solid testing.
+*   Automated builds in all target environements.
 
 Initial repo: [https://bitbucket.org/east301/java-keyring](https://bitbucket.org/east301/java-keyring)
 
 Cloned from: [https://bitbucket.org/bpsnervepoint/java-keyring](https://bitbucket.org/bpsnervepoint/java-keyring)
 
-## Status ##
+## Implementation ##
 
 __Mac OS X__
 *   Passwords are stored using [OS X Keychain](https://support.apple.com/guide/keychain-access/welcome/mac) using [Keychain Services](https://developer.apple.com/documentation/security/keychain_services/keychain_items) api via "Legacy Password Storage". 
@@ -67,14 +66,6 @@ Recommend creating a dummy value if getPassword() fails, so that users know wher
           + "with a password that is currently 'ChangeMe'");
     }
 ```
-
-## Source code tree ##
-
-java-keyring package contains the following directories
-
-__java-keyring__ directory
-
-*   java-keyring library source code
 
 ## Building ##
 

@@ -106,7 +106,7 @@ public class GnomeKeyringBackend implements KeyringBackend, KeyStorePath {
    *           Thrown when an error happened while saving the password
    */
   @Override
-  public void setPassword(String service, String account, String password) throws PasswordAccessException {
+  public void  setPassword(String service, String account, String password) throws PasswordAccessException {
     IntByReference ref = new IntByReference();
     int result = libraries.getGklib().gnome_keyring_set_network_password_sync(null, account, null, service, null,
         null, null, 0, password, ref);
@@ -144,7 +144,7 @@ public class GnomeKeyringBackend implements KeyringBackend, KeyStorePath {
    * Loads map from a file. This method is not thread/process safe.
    */
   @SuppressWarnings("unchecked")
-  private Map<String, Integer> loadMap() {
+  private synchronized Map<String, Integer> loadMap() {
     try {
       File keyStoreFile = new File(keyStorePath);
       if (keyStoreFile.exists() && keyStoreFile.length() > 0) {
@@ -171,7 +171,7 @@ public class GnomeKeyringBackend implements KeyringBackend, KeyStorePath {
    * @throws PasswordAccessException
    *           Thrown when an error happened while writing to a file
    */
-  private void saveMap(Map<String, Integer> map) throws PasswordAccessException {
+  private synchronized void saveMap(Map<String, Integer> map) throws PasswordAccessException {
     try {
       ObjectOutputStream fout = new ObjectOutputStream(new FileOutputStream(keyStorePath));
       try {
