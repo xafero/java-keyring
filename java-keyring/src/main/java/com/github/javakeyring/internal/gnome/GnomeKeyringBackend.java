@@ -113,9 +113,11 @@ public class GnomeKeyringBackend implements KeyringBackend, KeyStorePath {
     if (result != 0) {
       throw new PasswordAccessException(libraries.getGklib().gnome_keyring_result_to_message(result));
     }
-    Map<String, Integer> map = loadMap();
-    map.put(service + "/" + account, ref.getValue());
-    saveMap(map);
+    synchronized (keyStorePath) {
+      Map<String, Integer> map = loadMap();
+      map.put(service + "/" + account, ref.getValue());
+      saveMap(map);
+    }
   }
   
   /**
@@ -130,13 +132,15 @@ public class GnomeKeyringBackend implements KeyringBackend, KeyStorePath {
    */
   @Override
   public void deletePassword(String service, String account) throws PasswordAccessException {
-    Map<String, Integer> map = loadMap();
-    String key = service + "/" + account;
-    if (map.containsKey(key)) {
-      map.remove(key);
-      saveMap(map);
-    } else {
-      throw new PasswordAccessException("Item was not found in keyring: "+ key);
+    synchronized (keyStorePath) {
+      Map<String, Integer> map = loadMap();
+      String key = service + "/" + account;
+      if (map.containsKey(key)) {
+        map.remove(key);
+        saveMap(map);
+      } else {
+        throw new PasswordAccessException("Item was not found in keyring: "+ key);
+      }
     }
   }
 
@@ -144,7 +148,7 @@ public class GnomeKeyringBackend implements KeyringBackend, KeyStorePath {
    * Loads map from a file. This method is not thread/process safe.
    */
   @SuppressWarnings("unchecked")
-  private synchronized Map<String, Integer> loadMap() {
+  private Map<String, Integer> loadMap() {
     try {
       File keyStoreFile = new File(keyStorePath);
       if (keyStoreFile.exists() && keyStoreFile.length() > 0) {
@@ -171,7 +175,7 @@ public class GnomeKeyringBackend implements KeyringBackend, KeyStorePath {
    * @throws PasswordAccessException
    *           Thrown when an error happened while writing to a file
    */
-  private synchronized void saveMap(Map<String, Integer> map) throws PasswordAccessException {
+  private void saveMap(Map<String, Integer> map) throws PasswordAccessException {
     try {
       ObjectOutputStream fout = new ObjectOutputStream(new FileOutputStream(keyStorePath));
       try {
