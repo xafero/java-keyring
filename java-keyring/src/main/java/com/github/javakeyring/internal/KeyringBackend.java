@@ -38,13 +38,6 @@ import com.github.javakeyring.PasswordAccessException;
 public interface KeyringBackend {
 
   /**
-   * Returns true when the back end is supported.
-   *
-   * @return true if the back end will function on the machine.
-   */
-  public boolean isSupported();
-
-  /**
    * Gets password from key store.
    *
    * @param service

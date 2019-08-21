@@ -38,7 +38,7 @@ public class KeyringBackendFactory {
    * Creates an instance of KeyringBackend.
    * @return the KeyringBackend.
    * @throws BackendNotSupportedException 
-   *     should the preferred {@link KeyringStorageType} not start of this system.
+   *     if no {@link KeyringBackend} supports this system.
    *     
    */
   public static KeyringBackend create() throws BackendNotSupportedException {
@@ -58,7 +58,7 @@ public class KeyringBackendFactory {
    *          Preferred backend name
    * @return Creates an instance of KeyringBackend.
    * @throws BackendNotSupportedException 
-   *          should the preferred {@link KeyringStorageType} not start of this system.
+   *          should the preferred {@link KeyringStorageType} not support this system.
    */
   public static KeyringBackend create(KeyringStorageType preferred) throws BackendNotSupportedException {
     KeyringBackend backend = tryToCreateBackend(preferred);
@@ -82,9 +82,6 @@ public class KeyringBackendFactory {
               .getConstructor(new Class[] {})
               .newInstance(new Object[]{});
     } catch (Exception ex) {
-      return null;
-    }
-    if (!backend.isSupported()) {
       return null;
     }
     return backend;

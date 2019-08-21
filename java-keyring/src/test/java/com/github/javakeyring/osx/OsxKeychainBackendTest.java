@@ -59,15 +59,6 @@ public class OsxKeychainBackendTest {
   }
 
   /**
-   * Test of isSupported method, of class OSXKeychainBackend.
-   */
-  @Test
-  public void testIsSupported() throws Exception {
-    assumeTrue(Platform.isMac());
-    assertThat(new OsxKeychainBackend().isSupported()).isTrue();
-  }
-
-  /**
    * Test of isKeyStorePathRequired method, of class OSXKeychainBackend.
    */
   @Test

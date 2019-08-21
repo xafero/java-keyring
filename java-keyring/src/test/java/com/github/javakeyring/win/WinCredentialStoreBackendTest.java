@@ -37,7 +37,6 @@ import static org.junit.Assume.assumeTrue;
 
 import org.junit.Test;
 
-import com.github.javakeyring.BackendNotSupportedException;
 import com.github.javakeyring.PasswordAccessException;
 import com.github.javakeyring.internal.windows.WinCredentialStoreBackend;
 import com.sun.jna.Platform;
@@ -51,16 +50,6 @@ public class WinCredentialStoreBackendTest {
   private static final String ACCOUNT = "username_wincred";
 
   private static final String PASSWORD = "password_wincred";
-
-  /**
-   * Test of isSupported method, of class WindowsDPAPIBackend.
-   * @throws BackendNotSupportedException if the backend may not be used in this environment.
-   */
-  @Test
-  public void testIsSupported() throws BackendNotSupportedException {
-    assumeTrue(Platform.isWindows());
-    assertThat(new WinCredentialStoreBackend().isSupported()).isTrue();
-  }
 
   /**
    * Test of getPassword method, of class OSXKeychainBackend.

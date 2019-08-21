@@ -65,15 +65,6 @@ public class GnomeKeyringBackedTest {
   }
 
   /**
-   * Test of isSupported method, of class GnomeKeyringBackend.
-   */
-  @Test
-  public void testIsSupported() throws Exception {
-    assumeTrue(Platform.isLinux());
-    assertThat(new GnomeKeyringBackend().isSupported()).isTrue();
-  }
-
-  /**
    * Test of isKeyStorePathRequired method, of class GnomeKeyringBackend.
    */
   @Test

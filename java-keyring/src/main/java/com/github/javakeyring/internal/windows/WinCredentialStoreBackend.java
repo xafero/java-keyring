@@ -32,7 +32,6 @@ import com.github.javakeyring.BackendNotSupportedException;
 import com.github.javakeyring.PasswordAccessException;
 import com.github.javakeyring.internal.KeyringBackend;
 import com.sun.jna.Memory;
-import com.sun.jna.Platform;
 import com.sun.jna.platform.win32.WinDef.DWORD;
 import com.sun.jna.ptr.PointerByReference;
 
@@ -50,14 +49,6 @@ public class WinCredentialStoreBackend implements KeyringBackend {
 
   public WinCredentialStoreBackend() throws BackendNotSupportedException {
     nativeLibraries = new NativeLibraryManager();
-  }
-
-  /**
-   * Returns true when the backend is supported.
-   */
-  @Override
-  public boolean isSupported() {
-    return Platform.isWindows();
   }
 
   @Override

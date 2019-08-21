@@ -40,7 +40,6 @@ import com.github.javakeyring.BackendNotSupportedException;
 import com.github.javakeyring.KeyStorePath;
 import com.github.javakeyring.PasswordAccessException;
 import com.github.javakeyring.internal.KeyringBackend;
-import com.sun.jna.Platform;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.PointerByReference;
 
@@ -62,14 +61,6 @@ public class GnomeKeyringBackend implements KeyringBackend, KeyStorePath {
     if (result != 0) {
       throw new BackendNotSupportedException(libraries.getGklib().gnome_keyring_result_to_message(result));
     }
-  }
-
-  /**
-   * Returns true when the backend is supported.
-   */
-  @Override
-  public boolean isSupported() {
-    return Platform.isLinux();
   }
 
   /**

@@ -31,7 +31,6 @@ import java.nio.charset.Charset;
 import com.github.javakeyring.BackendNotSupportedException;
 import com.github.javakeyring.PasswordAccessException;
 import com.github.javakeyring.internal.KeyringBackend;
-import com.sun.jna.Platform;
 import com.sun.jna.Pointer;
 
 /**
@@ -43,14 +42,6 @@ public class OsxKeychainBackend implements KeyringBackend {
   
   public OsxKeychainBackend() throws BackendNotSupportedException {
     nativeLibraries = new NativeLibraryManager();
-  }
-
-  /**
-   * Returns true when the backend is supported.
-   */
-  @Override
-  public boolean isSupported() {
-    return Platform.isMac();
   }
 
   /**
