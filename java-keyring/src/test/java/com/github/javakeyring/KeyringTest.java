@@ -43,9 +43,17 @@ public class KeyringTest {
 
   private static final String SERVICE = "com.github.javakeyring.test";
 
-  private static final String ACCOUNT = "username";
+  private static final String ACCOUNT1 = "username1";
 
-  private static final String PASSWORD = "password";
+  private static final String PASSWORD1 = "password1";
+  
+  private static final String ACCOUNT2 = "username2";
+
+  private static final String PASSWORD2 = "password2";
+  
+  private static final String ACCOUNT3 = "username3";
+
+  private static final String PASSWORD3 = "password3";
   
   /**
    * Test of create method, of class Keyring.
@@ -112,15 +120,15 @@ public class KeyringTest {
   @Test
   public void testPasswordFlow() throws Exception {
     Keyring keyring = Keyring.create();
-    catchThrowable(() -> keyring.deletePassword(SERVICE, ACCOUNT));
-    assertThatThrownBy(() -> keyring.deletePassword(SERVICE, ACCOUNT)).isInstanceOf(PasswordAccessException.class);
-    keyring.setPassword(SERVICE, ACCOUNT, PASSWORD);
-    assertThat(keyring.getPassword(SERVICE, ACCOUNT)).isEqualTo(PASSWORD);
+    catchThrowable(() -> keyring.deletePassword(SERVICE, ACCOUNT1));
+    assertThatThrownBy(() -> keyring.deletePassword(SERVICE, ACCOUNT1)).isInstanceOf(PasswordAccessException.class);
+    keyring.setPassword(SERVICE, ACCOUNT1, PASSWORD1);
+    assertThat(keyring.getPassword(SERVICE, ACCOUNT1)).isEqualTo(PASSWORD1);
     //overwrite password
-    keyring.setPassword(SERVICE, ACCOUNT, PASSWORD + "1");
-    assertThat(keyring.getPassword(SERVICE, ACCOUNT)).isEqualTo(PASSWORD + "1");
-    keyring.deletePassword(SERVICE, ACCOUNT);
-    assertThatThrownBy(() -> keyring.getPassword(SERVICE, ACCOUNT)).isInstanceOf(PasswordAccessException.class);
+    keyring.setPassword(SERVICE, ACCOUNT1, PASSWORD1 + "1");
+    assertThat(keyring.getPassword(SERVICE, ACCOUNT1)).isEqualTo(PASSWORD1 + "1");
+    keyring.deletePassword(SERVICE, ACCOUNT1);
+    assertThatThrownBy(() -> keyring.getPassword(SERVICE, ACCOUNT1)).isInstanceOf(PasswordAccessException.class);
   }
   
 
@@ -132,24 +140,25 @@ public class KeyringTest {
     Keyring keyring = Keyring.create();
     
     //ensure empty keychain
-    catchThrowable(() -> keyring.deletePassword(SERVICE, ACCOUNT));
-    assertThatThrownBy(() -> keyring.deletePassword(SERVICE, ACCOUNT)).isInstanceOf(PasswordAccessException.class);
+    catchThrowable(() -> keyring.deletePassword(SERVICE, ACCOUNT2));
+    assertThatThrownBy(() -> keyring.deletePassword(SERVICE, ACCOUNT2)).isInstanceOf(PasswordAccessException.class);
     
-    catchThrowable(() -> keyring.deletePassword(SERVICE, ACCOUNT + "1"));
-    assertThatThrownBy(() -> keyring.deletePassword(SERVICE, ACCOUNT + "1")).isInstanceOf(PasswordAccessException.class);
+    catchThrowable(() -> keyring.deletePassword(SERVICE, ACCOUNT3));
+    assertThatThrownBy(() -> keyring.deletePassword(SERVICE, ACCOUNT3)).isInstanceOf(PasswordAccessException.class);
     
     //create passwords
-    keyring.setPassword(SERVICE, ACCOUNT, PASSWORD);
-    keyring.setPassword(SERVICE, ACCOUNT + "1", PASSWORD + "1");
+    keyring.setPassword(SERVICE, ACCOUNT2, PASSWORD2);
+    keyring.setPassword(SERVICE, ACCOUNT3, PASSWORD3);
     
     //verify both passwords
-    assertThat(keyring.getPassword(SERVICE, ACCOUNT + "1")).isEqualTo(PASSWORD + "1");
-    assertThat(keyring.getPassword(SERVICE, ACCOUNT)).isEqualTo(PASSWORD);
+    assertThat(keyring.getPassword(SERVICE, ACCOUNT3)).isEqualTo(PASSWORD3);
+    assertThat(keyring.getPassword(SERVICE, ACCOUNT2)).isEqualTo(PASSWORD2);
 
     //delete them both
-    keyring.deletePassword(SERVICE, ACCOUNT);
-    keyring.deletePassword(SERVICE, ACCOUNT + "1");
-    assertThatThrownBy(() -> keyring.getPassword(SERVICE, ACCOUNT)).isInstanceOf(PasswordAccessException.class);
+    keyring.deletePassword(SERVICE, ACCOUNT2);
+    keyring.deletePassword(SERVICE, ACCOUNT3);
+    assertThatThrownBy(() -> keyring.getPassword(SERVICE, ACCOUNT2)).isInstanceOf(PasswordAccessException.class);
+    assertThatThrownBy(() -> keyring.getPassword(SERVICE, ACCOUNT3)).isInstanceOf(PasswordAccessException.class);
   }
 
 }
