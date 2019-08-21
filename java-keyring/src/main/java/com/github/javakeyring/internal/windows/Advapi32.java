@@ -31,7 +31,9 @@ import com.sun.jna.platform.win32.WinDef.DWORD;
 import com.sun.jna.ptr.PointerByReference;
 
 /**
- * OS X CoreFoundation library.
+ * Windows wincred library.
+ * Documents: https://docs.microsoft.com/en-us/windows/win32/api/wincred/
+ * Error messages: https://docs.microsoft.com/en-us/windows/win32/debug/system-error-codes
  */
 @SuppressWarnings({"AbbreviationAsWordInName","ParameterName", "MethodName"})
 interface Advapi32 extends Library {

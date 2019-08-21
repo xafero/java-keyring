@@ -43,4 +43,4 @@ public class PasswordAccessException extends Exception {
     super(message);
   }
 
-} // class PasswordRetrievalException
+}

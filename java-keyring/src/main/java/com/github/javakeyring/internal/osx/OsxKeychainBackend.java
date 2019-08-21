@@ -115,9 +115,12 @@ public class OsxKeychainBackend implements KeyringBackend {
       throw new PasswordAccessException(convertErrorCodeToMessage(status));
     }
     if (itemRef[0] != null) {
-      status = nativeLibraries.getSecurity().SecKeychainItemModifyContent(itemRef[0], null, passwordBytes.length,
-          passwordBytes);
-      // TODO: add code to release itemRef[0]
+      try {
+        status = nativeLibraries.getSecurity().SecKeychainItemModifyContent(itemRef[0], null, passwordBytes.length,
+            passwordBytes);
+      } finally {
+        nativeLibraries.getCoreFoundation().CFRelease(itemRef[0]);
+      }
     } else {
       status = nativeLibraries.getSecurity().SecKeychainAddGenericPassword(Pointer.NULL, serviceBytes.length,
           serviceBytes, accountBytes.length, accountBytes, passwordBytes.length, passwordBytes, null);

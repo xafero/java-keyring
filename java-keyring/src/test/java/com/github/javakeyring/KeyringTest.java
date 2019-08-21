@@ -37,7 +37,6 @@ import java.io.File;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.github.advisedtesting.classloader.RestrictiveClassloader;
 import com.github.advisedtesting.junit4.Junit4AopClassRunner;
 import com.sun.jna.Platform;
 
@@ -61,7 +60,7 @@ public class KeyringTest {
    * Test of create method, of class Keyring.
    */
   @Test
-  @RestrictiveClassloader
+  //@RestrictiveClassloader
   public void testCreateZeroArgs() throws Exception {
     Keyring keyring = Keyring.create();
     assertNotNull(keyring);
@@ -71,7 +70,7 @@ public class KeyringTest {
    * Test of create method, of class Keyring.
    */
   @Test
-  @RestrictiveClassloader
+  //@RestrictiveClassloader
   public void testCreateString() throws Exception {
     if (Platform.isMac()) {
       assertThat(Keyring.create(KeyringStorageType.OSX_KEYCHAIN)).isNotNull();
@@ -86,7 +85,7 @@ public class KeyringTest {
    * Test of get/setKeyStorePath method, of class Keyring.
    */
   @Test
-  @RestrictiveClassloader
+  //@RestrictiveClassloader
   public void testSetKeyStorePath() throws Exception {
     Keyring keyring = Keyring.create();
     if (keyring.isKeyStorePathSupported()) {
@@ -109,23 +108,21 @@ public class KeyringTest {
    * Test of getPassword method, of class OSXKeychainBackend.
    */
   @Test
-  @RestrictiveClassloader
+  //@RestrictiveClassloader
   public void testPasswordFlow() throws Exception {
     Keyring keyring = Keyring.create();
     if (keyring.isKeyStorePathSupported()) {
       keyring.setKeyStorePath(File.createTempFile(KEYSTORE_PREFIX, KEYSTORE_SUFFIX).getPath());
     }
     catchThrowable(() -> keyring.deletePassword(SERVICE, ACCOUNT));
-    checkExistanceOfPasswordEntry(keyring);
+    assertThatThrownBy(() -> keyring.deletePassword(SERVICE, ACCOUNT)).isInstanceOf(PasswordAccessException.class);
     keyring.setPassword(SERVICE, ACCOUNT, PASSWORD);
     assertThat(keyring.getPassword(SERVICE, ACCOUNT)).isEqualTo(PASSWORD);
+    //overwrite password
+    keyring.setPassword(SERVICE, ACCOUNT, PASSWORD + "1");
+    assertThat(keyring.getPassword(SERVICE, ACCOUNT)).isEqualTo(PASSWORD + "1");
     keyring.deletePassword(SERVICE, ACCOUNT);
     assertThatThrownBy(() -> keyring.getPassword(SERVICE, ACCOUNT)).isInstanceOf(PasswordAccessException.class);
   }
 
-  private static void checkExistanceOfPasswordEntry(Keyring keyring) {
-    assertThatThrownBy(() -> keyring.getPassword(SERVICE, ACCOUNT))
-       .as("Please remove password entry '%s' by using '%s' before running the tests", SERVICE, keyring.getKeyringStorageType())
-       .isNotNull();
-  }
 }

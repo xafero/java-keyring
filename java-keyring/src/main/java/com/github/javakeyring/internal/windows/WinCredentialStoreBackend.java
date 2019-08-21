@@ -38,7 +38,6 @@ import com.sun.jna.ptr.PointerByReference;
 
 /**
  * A Windows "Credential Store" backend.
- *
  */
 public class WinCredentialStoreBackend implements KeyringBackend {
 
@@ -66,13 +65,11 @@ public class WinCredentialStoreBackend implements KeyringBackend {
     PointerByReference ref = new PointerByReference();
     DWORD type = new DWORD(1L);
     DWORD unused = new DWORD(0L);
-    Boolean success = nativeLibraries.getAdvapi32().CredReadA(service, type, unused, ref);
+    Boolean success = nativeLibraries.getAdvapi32().CredReadA(service + '|' + account, type, unused, ref);
     if (!success) {
       throw new PasswordAccessException("Error code " + nativeLibraries.getKernel32().GetLastError());
     }
     CREDENTIAL cred = new CREDENTIAL(ref.getValue());
-    //TODO: verify username?  or lookup by service & username?
-    //String userName = cred.UserName.toString();
     try {
       byte[] passbytes = cred.CredentialBlob.getByteArray(0,cred.CredentialBlobSize);
       return new String(passbytes, Charset.forName("UTF-16LE"));    
@@ -81,32 +78,37 @@ public class WinCredentialStoreBackend implements KeyringBackend {
     } finally {
       nativeLibraries.getAdvapi32().CredFree(ref);
     }
-    
   }
 
   @Override
   public void setPassword(String service, String account, String password) throws PasswordAccessException {
     CREDENTIAL cred = new CREDENTIAL();
-    cred.TargetName = service;
-    cred.UserName = account;
-    cred.Type = 1;
-    byte[] bytes = password.getBytes(Charset.forName("UTF-16LE"));
-    Memory passwordMemory = new Memory(bytes.length);
-    passwordMemory.write(0, bytes, 0, bytes.length);
-    cred.CredentialBlob = passwordMemory;
-    cred.CredentialBlobSize = bytes.length;
-    cred.Persist = 2;
-    Boolean success = nativeLibraries.getAdvapi32().CredWriteA(cred, new DWORD(0));
-    passwordMemory.clear();
-    if (!success) {
-      throw new PasswordAccessException("Error code " + nativeLibraries.getKernel32().GetLastError().intValue());
+    try {
+      cred.TargetName = service + '|' + account;
+      cred.UserName = account;
+      cred.Type = 1;
+      byte[] bytes = password.getBytes(Charset.forName("UTF-16LE"));
+      Memory passwordMemory = new Memory(bytes.length);
+      passwordMemory.write(0, bytes, 0, bytes.length);
+      cred.CredentialBlob = passwordMemory;
+      cred.CredentialBlobSize = bytes.length;
+      cred.Persist = 2;
+      Boolean success = nativeLibraries.getAdvapi32().CredWriteA(cred, new DWORD(0));
+      passwordMemory.clear();
+      if (!success) {
+        throw new PasswordAccessException("Error code " + nativeLibraries.getKernel32().GetLastError().intValue());
+      }
+    } finally {
+      nativeLibraries.getAdvapi32().CredFree(new PointerByReference(cred.getPointer()));
     }
   }
 
   @Override
   public void deletePassword(String service, String account) throws PasswordAccessException {
-    boolean success = nativeLibraries.getAdvapi32().CredDeleteA(service, new DWORD(1), new DWORD(0));
-    System.out.println(success);    
+    boolean success = nativeLibraries.getAdvapi32().CredDeleteA(service + '|' + account, new DWORD(1), new DWORD(0));
+    if (!success) {
+      throw new PasswordAccessException("Error code " + nativeLibraries.getKernel32().GetLastError().intValue());
+    }   
   }
 
 }
