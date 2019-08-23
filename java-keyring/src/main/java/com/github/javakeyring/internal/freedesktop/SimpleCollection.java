@@ -81,7 +81,7 @@ public final class SimpleCollection implements AutoCloseable {
     unlock();
   }
 
-  /**
+  /*
    * A user specified collection.
    *
    * @param label    The displayable label of the collection
@@ -96,10 +96,10 @@ public final class SimpleCollection implements AutoCloseable {
    * </p>                
    * @param password Password of the collection
    * @throws IOException if dbus collection can not be accessed.
-   */
+   *
   /*
   @SuppressWarnings("rawtypes")
-  public SimpleCollection(String label, CharSequence password, boolean enableUserPrompts) throws IOException {
+  public SimpleCollection(String label, CharSequence password) throws IOException {
     init();
 
     if (exists(label)) {
@@ -447,7 +447,6 @@ public final class SimpleCollection implements AutoCloseable {
 
   /**
    * Get the secrets from this collection.
-   * May prompt the user based on {@link #enableUserPrompts}.
    *
    * @return Mapping of DBus object paths and plain chars
    * @throws AccessControlException if user is prompted and refuses.
@@ -470,7 +469,6 @@ public final class SimpleCollection implements AutoCloseable {
 
   /**
    * Delete an item from this collection.
-   * May prompt the user based on {@link #enableUserPrompts}.
    *
    * @param objectPath The DBus object path of the item
    * @throws AccessControlException if user is prompted and refuses.
@@ -485,7 +483,6 @@ public final class SimpleCollection implements AutoCloseable {
 
   /**
    * Delete specified items from this collection.
-   * May prompt the user based on {@link #enableUserPrompts}.
    *
    * @param objectPaths The DBus object paths of the items
    * @throws AccessControlException if user is prompted and refuses.
