@@ -95,7 +95,6 @@ public final class SimpleCollection implements AutoCloseable {
    *                 label, but different ids correctly.
    * </p>                
    * @param password Password of the collection
-   * @param enableUserPrompts should we bother user with prompts
    * @throws IOException if dbus collection can not be accessed.
    */
   /*

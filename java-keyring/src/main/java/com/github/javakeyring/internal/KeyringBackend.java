@@ -32,7 +32,6 @@ import com.github.javakeyring.PasswordAccessException;
  * <p>
  * java-keyring backend interface.
  * </p>
- * May also implement {@link KeyStorePath} if there is support for backing files on they file system.
  */
 public interface KeyringBackend {
 
