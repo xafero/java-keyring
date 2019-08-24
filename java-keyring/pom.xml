@@ -24,13 +24,6 @@
         <dependency>
             <groupId>de.swiesend</groupId>
             <artifactId>secret-service</artifactId>
-            <version>1.0.0-RC.3</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>net.java.dev.jna</groupId>
@@ -43,18 +36,15 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.26</version>
         </dependency>
         <dependency>
             <groupId>com.github.advisedtesting</groupId>
             <artifactId>AdvisedJunit4</artifactId>
-            <version>1.3.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.github.advisedtesting</groupId>
             <artifactId>AdviseStaticEvictingClassloader</artifactId>
-            <version>1.3.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
