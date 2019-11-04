@@ -5,6 +5,7 @@ import com.sun.jna.Platform;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.Assume.assumeTrue;
 
 /**
@@ -20,10 +21,12 @@ public final class CorruptedHeapTest {
     public void testIfCrashHappens() throws Exception {
         assumeTrue(Platform.isWindows());
         WinCredentialStoreBackend backend = new WinCredentialStoreBackend();
+        catchThrowable(() -> backend.deletePassword(SERVICE, ACCOUNT));
         backend.setPassword(SERVICE, ACCOUNT, PASSWORD);
         for (int i = 0; i < 50; i++) {
             assertThat(backend.getPassword(SERVICE, ACCOUNT)).isEqualTo(PASSWORD);
             Runtime.getRuntime().gc(); // greatly increases chances of a crash
         }
+        backend.deletePassword(SERVICE, ACCOUNT);
     }
 }
