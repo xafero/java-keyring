@@ -86,5 +86,4 @@ interface Advapi32 extends Library {
       DWORD  type,
       DWORD  flags
       );
-
 }
