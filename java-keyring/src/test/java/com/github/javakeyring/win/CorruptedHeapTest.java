@@ -13,7 +13,7 @@ import static org.junit.Assume.assumeTrue;
  * @see <a href="https://github.com/javakeyring/java-keyring/issues/30">issue #30</a>
  */
 public final class CorruptedHeapTest {
-    private static final String SERVICE = "com.github.javakeyring.wincred.test";
+    private static final String SERVICE = "com.github.javakeyring.wincred.testcrash";
     private static final String ACCOUNT = "username_wincred";
     private static final String PASSWORD = "password_wincred";
 
