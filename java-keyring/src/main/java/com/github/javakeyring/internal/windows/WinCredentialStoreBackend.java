@@ -67,30 +67,26 @@ public class WinCredentialStoreBackend implements KeyringBackend {
     } catch (Exception ex) {
       throw new PasswordAccessException(ex.getMessage());
     } finally {
-      nativeLibraries.getAdvapi32().CredFree(ref);
+      nativeLibraries.getAdvapi32().CredFree(ref.getValue());
     }
   }
 
   @Override
   public void setPassword(String service, String account, String password) throws PasswordAccessException {
     CREDENTIAL cred = new CREDENTIAL();
-    try {
-      cred.TargetName = service + '|' + account;
-      cred.UserName = account;
-      cred.Type = 1;
-      byte[] bytes = password.getBytes(Charset.forName("UTF-16LE"));
-      Memory passwordMemory = new Memory(bytes.length);
-      passwordMemory.write(0, bytes, 0, bytes.length);
-      cred.CredentialBlob = passwordMemory;
-      cred.CredentialBlobSize = bytes.length;
-      cred.Persist = 2;
-      Boolean success = nativeLibraries.getAdvapi32().CredWriteA(cred, new DWORD(0));
-      passwordMemory.clear();
-      if (!success) {
-        throw new PasswordAccessException("Error code " + nativeLibraries.getKernel32().GetLastError().intValue());
-      }
-    } finally {
-      nativeLibraries.getAdvapi32().CredFree(new PointerByReference(cred.getPointer()));
+    cred.TargetName = service + '|' + account;
+    cred.UserName = account;
+    cred.Type = 1;
+    byte[] bytes = password.getBytes(Charset.forName("UTF-16LE"));
+    Memory passwordMemory = new Memory(bytes.length);
+    passwordMemory.write(0, bytes, 0, bytes.length);
+    cred.CredentialBlob = passwordMemory;
+    cred.CredentialBlobSize = bytes.length;
+    cred.Persist = 2;
+    Boolean success = nativeLibraries.getAdvapi32().CredWriteA(cred, new DWORD(0));
+    passwordMemory.clear();
+    if (!success) {
+      throw new PasswordAccessException("Error code " + nativeLibraries.getKernel32().GetLastError().intValue());
     }
   }
 

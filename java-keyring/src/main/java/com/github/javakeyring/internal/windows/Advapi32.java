@@ -27,6 +27,7 @@
 package com.github.javakeyring.internal.windows;
 
 import com.sun.jna.Library;
+import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinDef.DWORD;
 import com.sun.jna.ptr.PointerByReference;
 
@@ -67,11 +68,10 @@ interface Advapi32 extends Library {
   /**
    * Advapi32.lib
    * @param Credential who's memory we'll free.
-   * @param Flags has one value, set to use existing credential memory or not.
    * @return success or failure.
    */
   public boolean CredFree(
-      PointerByReference Credential
+      Pointer Credential
       );
     
   /**
@@ -86,5 +86,5 @@ interface Advapi32 extends Library {
       DWORD  type,
       DWORD  flags
       );
-  
+
 }
