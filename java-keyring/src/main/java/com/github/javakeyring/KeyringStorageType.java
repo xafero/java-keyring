@@ -35,10 +35,10 @@ import com.github.javakeyring.internal.osx.OsxKeychainBackend;
 import com.github.javakeyring.internal.windows.WinCredentialStoreBackend;
 
 public enum KeyringStorageType {
-  KWALLET(KWalletBackend.class),
   OSX_KEYCHAIN(OsxKeychainBackend.class),
   GNOME_KEYRING(FreedesktopKeyringBackend.class),
-  WINDOWS_CREDENTIAL_STORE(WinCredentialStoreBackend.class);
+  WINDOWS_CREDENTIAL_STORE(WinCredentialStoreBackend.class),
+  KWALLET(KWalletBackend.class); //prefer GNOME_KEYRING over this
 
   private final Class<? extends KeyringBackend> supportingClass;
 
