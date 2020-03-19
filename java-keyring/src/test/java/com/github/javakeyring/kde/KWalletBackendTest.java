@@ -36,14 +36,14 @@ public class KWalletBackendTest {
     assumeTrue(Platform.isLinux() && Keyring.create().getKeyringStorageType() == KeyringStorageType.KWALLET);
     KeyringBackend backend = new KWalletBackend();
     catchThrowable(() -> backend.deletePassword(SERVICE, ACCOUNT));
-    checkExistanceOfPasswordEntry(backend);
+    checkExistenceOfPasswordEntry(backend);
     backend.setPassword(SERVICE, ACCOUNT, PASSWORD);
     assertThat(backend.getPassword(SERVICE, ACCOUNT)).isEqualTo(PASSWORD);
     backend.deletePassword(SERVICE, ACCOUNT);
     assertThatThrownBy(() -> backend.getPassword(SERVICE, ACCOUNT)).isInstanceOf(PasswordAccessException.class);
   }
 
-  private static void checkExistanceOfPasswordEntry(KeyringBackend backend) {
+  private static void checkExistenceOfPasswordEntry(KeyringBackend backend) {
     assertThatThrownBy(() -> backend.getPassword(SERVICE, ACCOUNT))
             .as("Please remove password entry '%s' " + "by using Keychain Access before running the tests", SERVICE)
             .isNotNull();

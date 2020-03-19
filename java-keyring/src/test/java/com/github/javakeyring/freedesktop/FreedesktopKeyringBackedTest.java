@@ -67,14 +67,14 @@ public class FreedesktopKeyringBackedTest {
     assumeTrue(Platform.isLinux() && Keyring.create().getKeyringStorageType() == KeyringStorageType.GNOME_KEYRING);
     FreedesktopKeyringBackend backend = new FreedesktopKeyringBackend();
     catchThrowable(() -> backend.deletePassword(SERVICE, ACCOUNT));
-    checkExistanceOfPasswordEntry(backend);
+    checkExistenceOfPasswordEntry(backend);
     backend.setPassword(SERVICE, ACCOUNT, PASSWORD);
     assertThat(backend.getPassword(SERVICE, ACCOUNT)).isEqualTo(PASSWORD);
     backend.deletePassword(SERVICE, ACCOUNT);
     assertThatThrownBy(() -> backend.getPassword(SERVICE, ACCOUNT)).isInstanceOf(PasswordAccessException.class);
   }
 
-  private static void checkExistanceOfPasswordEntry(FreedesktopKeyringBackend backend) {
+  private static void checkExistenceOfPasswordEntry(FreedesktopKeyringBackend backend) {
     assertThatThrownBy(() -> backend.getPassword(SERVICE, ACCOUNT))
        .as("Please remove password entry '%s' " + "by using Keychain Access before running the tests", SERVICE)
        .isNotNull();

@@ -22,7 +22,7 @@ Initially an abandoned bitbucket repo, but lotsa love has been given to it.
 *   Proper windows credential store access.
 *   Delete support.
 *   Solid testing.
-*   Automated builds in all target environements.
+*   Automated builds in all target environments.
 
 Initial repo: [https://bitbucket.org/east301/java-keyring](https://bitbucket.org/east301/java-keyring)
 
