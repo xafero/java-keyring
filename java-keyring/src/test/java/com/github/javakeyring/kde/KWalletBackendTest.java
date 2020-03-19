@@ -8,7 +8,9 @@ import com.github.javakeyring.internal.kde.KWalletBackend;
 import com.sun.jna.Platform;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assume.assumeTrue;
 
 public class KWalletBackendTest {
