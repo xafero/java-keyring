@@ -14,7 +14,7 @@
 
 java-keyring is a small library which provides a simple java API to store passwords and secrets securely in native os keystores.
 
-Currently Mac OS X, Windows and Linux (GNOME) are supported.
+Currently Mac OS X, Windows and Linux (GNOME or KDE) are supported.
 
 ## History ##
 
@@ -34,7 +34,7 @@ __Mac OS X__
 *   Passwords are stored using [OS X Keychain](https://support.apple.com/guide/keychain-access/welcome/mac) using [Keychain Services](https://developer.apple.com/documentation/security/keychain_services/keychain_items) api via "Legacy Password Storage". 
   
 __Linux/Freedesktop__
-*   Passwords are stored using [DBus Secret Service](https://specifications.freedesktop.org/secret-service/), you probably used [Seahorse](https://en.wikipedia.org/wiki/Seahorse_(software)).  Connection is made via the excellent [secret-service](https://github.com/swiesend/secret-service) library.
+*   Passwords are stored using either [DBus Secret Service](https://specifications.freedesktop.org/secret-service/) (you've probably used [Seahorse](https://en.wikipedia.org/wiki/Seahorse_(software)) via the excellent [secret-service](https://github.com/swiesend/secret-service) library, or KWallet under KDE.
 
 __Windows__
 *   Passwords are stored using [Credential Manager](https://support.microsoft.com/en-us/help/4026814/windows-accessing-credential-manager), exceptions will contain [Error Codes](https://docs.microsoft.com/en-us/windows/win32/debug/system-error-codes).   Access is via the [Wincred](https://docs.microsoft.com/en-us/windows/win32/api/wincred/) api.  
