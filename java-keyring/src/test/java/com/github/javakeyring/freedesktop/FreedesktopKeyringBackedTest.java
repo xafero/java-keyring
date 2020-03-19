@@ -31,6 +31,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.Assume.assumeTrue;
 
+import com.github.javakeyring.Keyring;
+import com.github.javakeyring.KeyringStorageType;
 import org.junit.Test;
 
 import com.github.javakeyring.PasswordAccessException;
@@ -53,7 +55,7 @@ public class FreedesktopKeyringBackedTest {
    */
   @Test
   public void testSetup() throws Exception {
-    assumeTrue(Platform.isLinux());
+    assumeTrue(Platform.isLinux() && Keyring.create().getKeyringStorageType() == KeyringStorageType.GNOME_KEYRING);
     assertThat(catchThrowable(() -> new FreedesktopKeyringBackend())).as("Setup should succeed").doesNotThrowAnyException();
   }
 
@@ -62,7 +64,7 @@ public class FreedesktopKeyringBackedTest {
    */
   @Test
   public void testPasswordFlow() throws Exception {
-    assumeTrue(Platform.isLinux());
+    assumeTrue(Platform.isLinux() && Keyring.create().getKeyringStorageType() == KeyringStorageType.GNOME_KEYRING);
     FreedesktopKeyringBackend backend = new FreedesktopKeyringBackend();
     catchThrowable(() -> backend.deletePassword(SERVICE, ACCOUNT));
     checkExistanceOfPasswordEntry(backend);

@@ -1,5 +1,7 @@
 package com.github.javakeyring.kde;
 
+import com.github.javakeyring.Keyring;
+import com.github.javakeyring.KeyringStorageType;
 import com.github.javakeyring.PasswordAccessException;
 import com.github.javakeyring.internal.KeyringBackend;
 import com.github.javakeyring.internal.kde.KWalletBackend;
@@ -21,8 +23,8 @@ public class KWalletBackendTest {
    * Test of setup method, of class KWalletKeyringBackend.
    */
   @Test
-  public void testSetup() {
-    assumeTrue(Platform.isLinux());
+  public void testSetup() throws Exception {
+    assumeTrue(Platform.isLinux() && Keyring.create().getKeyringStorageType() == KeyringStorageType.KWALLET);
     assertThat(catchThrowable(KWalletBackend::new)).as("Setup should succeed").doesNotThrowAnyException();
   }
 
@@ -31,7 +33,7 @@ public class KWalletBackendTest {
    */
   @Test
   public void testPasswordFlow() throws Exception {
-    assumeTrue(Platform.isLinux());
+    assumeTrue(Platform.isLinux() && Keyring.create().getKeyringStorageType() == KeyringStorageType.KWALLET);
     KeyringBackend backend = new KWalletBackend();
     catchThrowable(() -> backend.deletePassword(SERVICE, ACCOUNT));
     checkExistanceOfPasswordEntry(backend);
