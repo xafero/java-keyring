@@ -10,6 +10,7 @@ import org.freedesktop.dbus.interfaces.DBusInterface;
 import java.util.List;
 
 public class KWalletBackend implements KeyringBackend {
+
   private KWallet wallet;
   private int id = -1;
 
@@ -18,27 +19,28 @@ public class KWalletBackend implements KeyringBackend {
       DBusConnection connection = DBusConnection.getConnection(DBusConnection.DBusBusType.SESSION);
       wallet = connection.getRemoteObject("org.kde.kwalletd5", "/modules/kwalletd5", KWallet.class, true);
       wallet.localWallet(); //attempt connection to wallet
-    } catch(Exception e) {
+    } catch (Exception e) {
       throw new BackendNotSupportedException("Cannot connect to KWallet");
     }
   }
 
-	/**
-	 * Retrieves password from KWallet.
-	 * @param service
-	 *          Service name
-	 * @param account
-	 *          Account name
-	 *
-	 * @return Stored password
-	 * @throws PasswordAccessException
-	 * 			when the password cannot be found
-	 */
+  /**
+   * Retrieves password from KWallet.
+   *
+   * @param service
+   *         Service name
+   * @param account
+   *         Account name
+   *
+   * @return Stored password
+   * @throws PasswordAccessException
+   *         when the password cannot be found
+   */
   @Override
   public synchronized String getPassword(String service, String account) throws PasswordAccessException {
     int id = openWallet(service);
 
-    if(!wallet.hasEntry(id, service, account, service)) {
+    if (!wallet.hasEntry(id, service, account, service)) {
       throw new PasswordAccessException("Password is not in wallet");
     }
 
@@ -55,13 +57,27 @@ public class KWalletBackend implements KeyringBackend {
     close(service);
   }
 
+  /**
+   * Removes a password from KWallet.
+   * @param service
+   *          Service name
+   * @param account
+   *          Account name
+   * @throws PasswordAccessException
+   *          when password is not in wallet
+   */
   @Override
   public synchronized void deletePassword(String service, String account) throws PasswordAccessException {
     int id = openWallet(service);
+
+    if (!wallet.hasEntry(id, service, account, service)) {
+      throw new PasswordAccessException("Password cannot be deleted, it is not in wallet");
+    }
+
     wallet.removeEntry(id, service, account, service);
 
     //If there are no passwords left in the folder, delete the folder
-    if(wallet.entryList(id, service, service).isEmpty()) {
+    if (wallet.entryList(id, service, service).isEmpty()) {
       wallet.removeFolder(id, service, service);
     }
 
@@ -69,8 +85,8 @@ public class KWalletBackend implements KeyringBackend {
   }
 
   private int openWallet(String service) {
-    if(id >= 0) {
-      if(!wallet.isOpen(id)) {
+    if (id >= 0) {
+      if (!wallet.isOpen(id)) {
         id = 0;
       }
     } else {
@@ -85,6 +101,7 @@ public class KWalletBackend implements KeyringBackend {
 
   @DBusInterfaceName("org.kde.KWallet")
   interface KWallet extends DBusInterface {
+
     String localWallet();
 
     boolean isOpen(int handleId);
