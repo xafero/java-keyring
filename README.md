@@ -28,6 +28,21 @@ Initial repo: [https://bitbucket.org/east301/java-keyring](https://bitbucket.org
 
 Cloned from: [https://bitbucket.org/bpsnervepoint/java-keyring](https://bitbucket.org/bpsnervepoint/java-keyring)
 
+## Security Issues ##
+
+CVE-2018-19358 (Vulnerability)
+
+There is a current investigation on the behaviour of the Secret Service API, as other applications can easily read any secret, if the keyring is unlocked (if a user is logged in, then the login/default collection is unlocked). Available D-Bus protection mechanisms (involving the busconfig and policy XML elements) are not used by default. The Secret Service API was never designed with a secure retrival mechanism.
+
+* CVE-2018-19358 Base Score: __[7.8 HIGH]__, CVSS:3.0
+* GNOME Keyring Secret Service API Login Credentials Retrieval Vulnerability Base Score: __[5.5 Medium]__, CVSS:3.0
+
+## Public Service Announcement ##
+
+Please keep in mind the above isn't only about gnome/secret service.   Both os-x and window will ask the runtime to allow "java" to connect to the key ring.  This should be considered a vunlrability, as all java apps will be allowed access.  I personally wouldn't store any credentials in the system keyring, ever, and especially on a system allowing any java app access. That said, anything I would be comfortable storing in plain text (passwords in you may be forced to store in .m2/settings.xml, developement databases, etc) the things a developer usually has to store in plain text because there is no better option would be fine to store in the keyring.   At least you can look them up in all your tests/apps in a single location.
+
+Use a real password manager for your real secrets. Something like, keypass, enpass, 1password, bitwarden, etc.  Keep that password manager locked.  Use a secondary factory if you can with important services, particularly financial, and e-mail, and if you're in to that sort of thing, social sites - like github.
+
 ## Implementation ##
 
 __Mac OS X__
