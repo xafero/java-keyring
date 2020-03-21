@@ -41,9 +41,9 @@ There is a current investigation on the behaviour of the Secret Service API, as 
 
 Please keep in mind the above isn't only about gnome/secret service.   Both os-x and window will ask the runtime to allow __java__ to connect to the key ring.  This should be considered a vunlrability, as all java apps will be allowed access.  I personally wouldn't store any credentials in the system keyring, ever, and especially on a system allowing any java app access.
 
-That said, anything I would be comfortable storing in plain text would be fine.   For example, passwords you may be forced to store in ~/.m2/settings.xml, developement databases creds, etc) or any of the things a developer usually has to store in plain text because there is no better option would be fine to store in the keyring.   At least you can look them up in all your tests/apps in a single location if you are consistent with your service/user naming.
+That said, anything I would be comfortable storing in plain text would be fine.   For example, passwords you may be forced to store in ~/.m2/settings.xml, developement databases creds, etc) or any of the things a developer usually has to store in plain text because there is no better option would be fine to store in the keyring.  At least you can look them up in all your tests/apps in a single location if you are consistent with your service/user naming.  Hopefully these dev services are not available to the internet, you vpn in to them, right?  They may have attack vectors as well.  StrongSwan is pretty easy to set up.
 
-Use a real password manager for your real secrets. Something like Keypass, Enpass, 1Password, Bitwarden, etc.  Keep that password manager locked.  Use a secondary factory if you can with important services, particularly financial, and e-mail, and if you're in to that sort of thing, social sites - like github.com.
+Use a real password manager for your real secrets. Something like Keypass, Enpass, 1Password, Bitwarden, etc.  Keep that password manager locked - make sure it's setup to autolock after you login to something with it.  Use a secondary factor if you can with important services, particularly financial, and e-mail, and if you're in to that sort of thing, social sites - like github.com.
 
 ## Implementation ##
 
