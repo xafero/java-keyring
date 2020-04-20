@@ -32,7 +32,7 @@ import com.github.javakeyring.internal.KeyringBackendFactory;
 /**
  * Keyring.
  */
-public class Keyring {
+public class Keyring implements AutoCloseable {
 
   /**
    * Keyring Storage Back end.
@@ -120,5 +120,16 @@ public class Keyring {
    */
   public void deletePassword(String service, String account) throws PasswordAccessException {
     backend.deletePassword(service, account);
+  }
+
+  /**
+   * Closes resources used by the backend.
+   *
+   * @throws Exception
+   *           Thrown if the backend can not be closed
+   */
+  @Override
+  public void close() throws Exception {
+    backend.close();
   }
 }

@@ -160,4 +160,12 @@ public class FreedesktopKeyringBackend implements KeyringBackend {
   private void throwNoExistingCredentialException(String service, String account) throws PasswordAccessException {
     throw new PasswordAccessException("No stored credentials match " + service + " account: " + account);
   }
+
+  /**
+   * Closes the collection.
+   */
+  @Override
+  public void close() throws Exception {
+    collection.close();
+  }
 }
