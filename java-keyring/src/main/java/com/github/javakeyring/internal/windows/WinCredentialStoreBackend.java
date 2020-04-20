@@ -100,5 +100,6 @@ public class WinCredentialStoreBackend implements KeyringBackend {
 
   @Override
   public void close() throws Exception {
+    // nothing to close
   }
 }
