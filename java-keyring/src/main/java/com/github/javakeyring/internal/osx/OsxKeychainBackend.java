@@ -172,4 +172,9 @@ public class OsxKeychainBackend implements KeyringBackend {
     nativeLibraries.getCoreFoundation().CFRelease(msgPtr);
     return new String(buf);
   }
+
+  @Override
+  public void close() throws Exception {
+    // nothing to close
+  }
 }

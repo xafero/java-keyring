@@ -46,13 +46,14 @@ public final class CorruptedHeapTest {
     @Test
     public void testIfCrashHappens() throws Exception {
         assumeTrue(Platform.isWindows());
-        WinCredentialStoreBackend backend = new WinCredentialStoreBackend();
-        catchThrowable(() -> backend.deletePassword(SERVICE, ACCOUNT));
-        backend.setPassword(SERVICE, ACCOUNT, PASSWORD);
-        for (int i = 0; i < 50; i++) {
-            assertThat(backend.getPassword(SERVICE, ACCOUNT)).isEqualTo(PASSWORD);
-            Runtime.getRuntime().gc(); // greatly increases chances of a crash
+        try (WinCredentialStoreBackend backend = new WinCredentialStoreBackend()) {
+            catchThrowable(() -> backend.deletePassword(SERVICE, ACCOUNT));
+            backend.setPassword(SERVICE, ACCOUNT, PASSWORD);
+            for (int i = 0; i < 50; i++) {
+                assertThat(backend.getPassword(SERVICE, ACCOUNT)).isEqualTo(PASSWORD);
+                Runtime.getRuntime().gc(); // greatly increases chances of a crash
+            }
+            backend.deletePassword(SERVICE, ACCOUNT);
         }
-        backend.deletePassword(SERVICE, ACCOUNT);
     }
 }

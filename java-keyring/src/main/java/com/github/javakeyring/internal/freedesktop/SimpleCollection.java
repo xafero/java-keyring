@@ -42,6 +42,7 @@ import javax.crypto.NoSuchPaddingException;
 
 import org.freedesktop.dbus.DBusPath;
 import org.freedesktop.dbus.ObjectPath;
+import org.freedesktop.dbus.connections.impl.DBusConnection;
 import org.freedesktop.dbus.exceptions.DBusException;
 import org.freedesktop.dbus.types.Variant;
 import org.freedesktop.secret.Collection;
@@ -255,8 +256,14 @@ public final class SimpleCollection implements AutoCloseable {
   }
 
   @Override
-  public void close() {
+  public void close() throws Exception {
     clear();
+    if (service != null) {
+      DBusConnection connection = service.getConnection();
+      if (connection != null) {
+        service.getConnection().close();
+      }
+    }
   }
 
   /**

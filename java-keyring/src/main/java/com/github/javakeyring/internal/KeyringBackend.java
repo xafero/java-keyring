@@ -33,7 +33,7 @@ import com.github.javakeyring.PasswordAccessException;
  * java-keyring backend interface.
  * </p>
  */
-public interface KeyringBackend {
+public interface KeyringBackend extends AutoCloseable {
 
   /**
    * Gets password from key store.
