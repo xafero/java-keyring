@@ -122,7 +122,7 @@
                     <charset>UTF-8</charset>
                     <show>public</show>
                 </configuration>
-                <version>2.7</version>
+                <version>3.2.0</version>
             </plugin>
         </plugins>
     </build>
