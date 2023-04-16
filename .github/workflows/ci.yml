@@ -1,0 +1,42 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        distribution: adopt
+        java-version: [ '1.8', '11', '17' ]
+    steps:
+      - name: Install packages on linux
+        run: |
+          if [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then \
+            yes | sudo DEBIAN_FRONTEND=noninteractive apt-get -yqq --no-install-recommends dbus libdbus-glib-1-dev \
+            libgnome-keyring0 libsecret-tools gnome-keyring libgnome-keyring-dev python-gnomekeyring gir1.2-gnomekeyring-1.0 \
+          fi
+          ./setupkeystore.sh
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: ${{ matrix.distribution }}
+          java-version: ${{ matrix.java-version }}
+      - name: Maven Install   
+        run: mvn --batch-mode --update-snapshots verify
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage.xml
+          name: unittest
+          fail_ci_if_error: true
+          verbose: true
