@@ -42,13 +42,12 @@ public class ModernOsxKeychainBackend implements KeyringBackend {
 
   public ModernOsxKeychainBackend() throws BackendNotSupportedException {
     if(System.getProperty("os.name", "").toLowerCase().contains("mac os")) {
-	  try {
-		keychain = OSXKeychain.getInstance();
-	  } catch (OSXKeychainException e) {
-		  throw new BackendNotSupportedException("Modern OSX Keychain not supported.", e);
-	  }
-    }
-    else {
+      try {
+        keychain = OSXKeychain.getInstance();
+      } catch (OSXKeychainException e) {
+        throw new BackendNotSupportedException("Modern OSX Keychain not supported.", e);
+      }
+    } else {
       throw new BackendNotSupportedException("Not running on Mac OS.");
     }
   }
@@ -68,11 +67,11 @@ public class ModernOsxKeychainBackend implements KeyringBackend {
    */
   @Override
   public String getPassword(String service, String account) throws PasswordAccessException {
-	try {
-		return keychain.findGenericPassword(service, account).orElseThrow(() -> new PasswordAccessException("No stored credentials match " + service + " account: " + account));
-	} catch (OSXKeychainException e) {
-		throw new PasswordAccessException("Failed to get credential. " + e.getMessage());
-	}
+    try {
+      return keychain.findGenericPassword(service, account).orElseThrow(() -> new PasswordAccessException("No stored credentials match " + service + " account: " + account));
+    } catch (OSXKeychainException e) {
+      throw new PasswordAccessException("Failed to get credential. " + e.getMessage());
+    }
   }
 
   /**
@@ -90,18 +89,16 @@ public class ModernOsxKeychainBackend implements KeyringBackend {
    */
   @Override
   public void setPassword(String service, String account, String password) throws PasswordAccessException {
-	try {
+    try {
       try {
         getPassword(service, account);
         keychain.modifyGenericPassword(service, account, password);
-      }
-	  catch(PasswordAccessException pae) {
+      } catch(PasswordAccessException pae) {
         keychain.addGenericPassword(service, account, password);
       }
-    }
-    catch(OSXKeychainException e) {
+    } catch(OSXKeychainException e) {
       throw new PasswordAccessException("Failed to set credential. " + e.getMessage());
-	}
+    }
   }
 
   /**
@@ -116,11 +113,15 @@ public class ModernOsxKeychainBackend implements KeyringBackend {
    *           Thrown when an error happened while saving the password
    */
   public void deletePassword(String service, String account) throws PasswordAccessException {
-	try {
-       keychain.deleteGenericPassword(service, account);
+    try {
+      getPassword(service, account);
+    } catch(PasswordAccessException pae) {
+      throw new PasswordAccessException("No password to delete. " + pae.getMessage());
     }
-    catch(OSXKeychainException e) {
-	  throw new PasswordAccessException("Failed to set credential. " + e.getMessage());
+	  try {
+       keychain.deleteGenericPassword(service, account);
+    } catch(OSXKeychainException e) {
+	     throw new PasswordAccessException("Failed to set credential. " + e.getMessage());
     }
   }
 
