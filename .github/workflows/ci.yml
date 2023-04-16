@@ -22,7 +22,7 @@ jobs:
             yes | sudo DEBIAN_FRONTEND=noninteractive apt-get -yqq --no-install-recommends dbus libdbus-glib-1-dev
             libgnome-keyring0 libsecret-tools gnome-keyring libgnome-keyring-dev python-gnomekeyring gir1.2-gnomekeyring-1.0
           fi
-          ${GITHUB_WORKSPACE}./setupkeystore.sh
+          ${GITHUB_WORKSPACE}/setupkeystore.sh
       - name: Checkout
         uses: actions/checkout@v3
         with:
