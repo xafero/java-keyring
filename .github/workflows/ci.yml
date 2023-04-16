@@ -21,7 +21,7 @@ jobs:
           if [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then \
             yes | sudo DEBIAN_FRONTEND=noninteractive apt-get -yqq --no-install-recommends dbus libdbus-glib-1-dev \
             libgnome-keyring0 libsecret-tools gnome-keyring libgnome-keyring-dev python-gnomekeyring gir1.2-gnomekeyring-1.0 \
-          fi
+          fi \
           ./setupkeystore.sh
       - name: Checkout
         uses: actions/checkout@v3
