@@ -1,0 +1,68 @@
+name: ci
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: "ubuntu-latest"
+            java-version: 8
+            distribution: 'adopt'
+            keyring: 'gnome'
+          - os: "ubuntu-latest"
+            java-version: 11
+            distribution: 'adopt'
+            keyring: 'gnome'
+          - os: "ubuntu-latest"
+            java-version: 17
+            distribution: 'adopt'
+            keyring: 'gnome'
+          - os: "macos-latest"
+            java-version: 8
+            distribution: 'adopt'
+          - os: "macos-latest"
+            java-version: 11
+            distribution: 'adopt'
+          - os: "macos-latest"
+            java-version: 17
+            distribution: 'adopt'
+          - os: 'windows-latest'
+            java-version: 8
+            distribution: 'adopt'
+          - os: 'windows-latest'
+            java-version: 11
+            distribution: 'adopt'
+          - os: 'windows-latest'
+            java-version: 17
+            distribution: 'adopt'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Install packages on linux
+        run: >
+          if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+            sudo apt-get install -y --no-install-recommends dbus-x11 gnome-keyring dbus libdbus-glib-1-dev libsecret-tools
+          fi
+        shell: bash 
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: ${{ matrix.distribution }}
+          java-version: ${{ matrix.java-version }}
+      - name: Maven Install >
+        run: >
+          source $GITHUB_WORKSPACE/.setupkeystore.sh &&
+          mvn --batch-mode --update-snapshots install
+        shell: bash  
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3

@@ -38,6 +38,10 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>pt.davidafsilva.apple</groupId>
+            <artifactId>jkeychain</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.github.advisedtesting</groupId>
             <artifactId>AdvisedJunit4</artifactId>
             <scope>test</scope>

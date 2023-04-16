@@ -7,3 +7,4 @@
 **/.checkstyle
 **/target
 **/.DS_Store
+**/.vscode
