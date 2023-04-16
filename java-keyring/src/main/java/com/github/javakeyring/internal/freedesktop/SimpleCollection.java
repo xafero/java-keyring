@@ -263,6 +263,7 @@ public final class SimpleCollection implements AutoCloseable {
       if (connection != null) {
         service.getConnection().close();
       }
+      connection.close();
     }
   }
 
