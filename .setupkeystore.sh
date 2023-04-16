@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then 
   export DBUS_SESSION_BUS_ADDRESS=;
