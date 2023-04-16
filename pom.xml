@@ -35,7 +35,7 @@
             <dependency>
                 <groupId>de.swiesend</groupId>
                 <artifactId>secret-service</artifactId>
-                <version>1.8.1-jdk17</version>
+                <version>1.7.0</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.slf4j</groupId>
