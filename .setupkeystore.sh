@@ -1,9 +1,7 @@
 #!/bin/bash
 
-set +x
+set -x
 if [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then 
-
-  apt install dbus-x11 gnome-keyring libsecret # ~79MB
   export $(dbus-launch)
   eval "$(echo '\n' | gnome-keyring-daemon --unlock)"
   echo xxx@gmail.com | secret-tool store --label="main" email address
@@ -21,3 +19,4 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
   ls -la ~/Library/Keychains/
   #rm -rf ~/Library/Keychains/login.keychain
 fi
+
