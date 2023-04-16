@@ -59,10 +59,10 @@ jobs:
         with:
           distribution: ${{ matrix.distribution }}
           java-version: ${{ matrix.java-version }}
-      - name: Maven Install >
+      - name: Maven Install
         run: >
           source $GITHUB_WORKSPACE/.setupkeystore.sh &&
-          mvn --batch-mode --update-snapshots install
+          mvn --batch-mode --update-snapshots -Dgpg.skip=true install
         shell: bash  
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
