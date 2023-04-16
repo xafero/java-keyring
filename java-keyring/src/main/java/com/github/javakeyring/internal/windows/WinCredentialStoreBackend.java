@@ -79,12 +79,17 @@ public class WinCredentialStoreBackend implements KeyringBackend {
     cred.Type = 1;
     byte[] bytes = password.getBytes(Charset.forName("UTF-16LE"));
     Memory passwordMemory = new Memory(bytes.length);
-    passwordMemory.write(0, bytes, 0, bytes.length);
-    cred.CredentialBlob = passwordMemory;
-    cred.CredentialBlobSize = bytes.length;
-    cred.Persist = 2;
-    Boolean success = nativeLibraries.getAdvapi32().CredWriteA(cred, new DWORD(0));
-    passwordMemory.clear();
+    Boolean success = false;
+    try {
+      passwordMemory.write(0, bytes, 0, bytes.length);
+      cred.CredentialBlob = passwordMemory;
+      cred.CredentialBlobSize = bytes.length;
+      cred.Persist = 2;
+      success = nativeLibraries.getAdvapi32().CredWriteA(cred, new DWORD(0));
+      passwordMemory.clear();
+    } finally {
+      passwordMemory.close();
+    }
     if (!success) {
       throw new PasswordAccessException("Error code " + nativeLibraries.getKernel32().GetLastError().intValue());
     }

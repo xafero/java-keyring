@@ -32,6 +32,7 @@ import com.github.javakeyring.internal.KeyringBackend;
 
 import org.freedesktop.dbus.annotations.DBusInterfaceName;
 import org.freedesktop.dbus.connections.impl.DBusConnection;
+import org.freedesktop.dbus.connections.impl.DBusConnectionBuilder;
 import org.freedesktop.dbus.interfaces.DBusInterface;
 
 import java.io.IOException;
@@ -45,7 +46,7 @@ public class KWalletBackend implements KeyringBackend {
 
   public KWalletBackend() throws BackendNotSupportedException {
     try {
-      connection = DBusConnection.getConnection(DBusConnection.DBusBusType.SESSION);
+      connection = DBusConnectionBuilder.forSessionBus().build();
       wallet = connection.getRemoteObject("org.kde.kwalletd5", "/modules/kwalletd5", KWallet.class, true);
       wallet.localWallet(); //attempt connection to wallet
     } catch (Exception e) {
