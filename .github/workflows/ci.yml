@@ -23,7 +23,7 @@ jobs:
       - name: Install packages on linux
         run: >
           if [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
-            sudo apt-get install -y --no-install-recommends dbus libdbus-glib-1-dev libgnome-keyring0 libsecret-tools gnome-keyring libgnome-keyring-dev python-gnomekeyring gir1.2-gnomekeyring-1.0
+            sudo apt-get install -y --no-install-recommends dbus libdbus-glib-1-dev libsecret-tools gnome-keyring
           fi
       - name: setup keystore
         run: ${{ github.workspace }}/setupkeystore.sh    
