@@ -16,17 +16,18 @@ jobs:
         distribution: [ 'adopt' ]
         java-version: [ '1.8', '11', '17' ]
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
       - name: Install packages on linux
         run: >
           if [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
             yes | sudo DEBIAN_FRONTEND=noninteractive apt-get -yqq --no-install-recommends dbus libdbus-glib-1-dev
             libgnome-keyring0 libsecret-tools gnome-keyring libgnome-keyring-dev python-gnomekeyring gir1.2-gnomekeyring-1.0
           fi
-          ${GITHUB_WORKSPACE}/setupkeystore.sh
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          submodules: true
+      - name: setup keystore
+        run: ${{ github.workspace }}/setupkeystore.sh    
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
