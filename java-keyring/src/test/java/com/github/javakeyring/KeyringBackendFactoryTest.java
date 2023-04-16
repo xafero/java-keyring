@@ -41,6 +41,7 @@ import com.github.advisedtesting.junit4.Junit4AopClassRunner;
 import com.github.javakeyring.internal.KeyringBackend;
 import com.github.javakeyring.internal.KeyringBackendFactory;
 import com.github.javakeyring.internal.freedesktop.FreedesktopKeyringBackend;
+import com.github.javakeyring.internal.osx.ModernOsxKeychainBackend;
 import com.github.javakeyring.internal.osx.OsxKeychainBackend;
 import com.github.javakeyring.internal.windows.WinCredentialStoreBackend;
 import com.sun.jna.Platform;
@@ -54,7 +55,9 @@ public class KeyringBackendFactoryTest {
   public static class IgnoredClasses extends MinimalPackageSupplier {
     @Override
     public Stream<String> get() {
-      return Stream.concat(super.get(), Stream.of("org.freedesktop")/* DBusConnection, Service */);
+      return Stream.concat(super.get(), Stream.of(
+        "org.freedesktop" /* DBusConnection, Service */,
+        "pt.davidafsilva.apple"));
     }
   }
   
@@ -67,7 +70,7 @@ public class KeyringBackendFactoryTest {
     KeyringBackend backend = KeyringBackendFactory.create();
     assertNotNull(backend);
     if (Platform.isMac()) {
-      assertTrue(backend instanceof OsxKeychainBackend);
+      assertTrue(backend instanceof ModernOsxKeychainBackend);
     } else if (Platform.isWindows()) {
       assertTrue(backend instanceof WinCredentialStoreBackend);
     } else if (Platform.isLinux()) {
