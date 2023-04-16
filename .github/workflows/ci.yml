@@ -34,5 +34,6 @@ jobs:
         run: >
           chmod +x ${{ github.workspace }}/.setupkeystore.sh && source ${{ github.workspace }}/.setupkeystore.sh &&
           mvn --batch-mode --update-snapshots install
+        shell: bash  
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
