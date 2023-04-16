@@ -34,14 +34,18 @@ import com.github.javakeyring.internal.KeyringBackend;
 import com.sun.jna.Pointer;
 
 /**
- * Keyring backend which uses OS X Keychain.
+ * Keyring backend which uses legacy OS X Keychain.
  */
 public class OsxKeychainBackend implements KeyringBackend {
 
   private final NativeLibraryManager nativeLibraries;
   
   public OsxKeychainBackend() throws BackendNotSupportedException {
-    nativeLibraries = new NativeLibraryManager();
+	if(System.getProperty("os.name", "").toLowerCase().contains("mac os")) {
+		nativeLibraries = new NativeLibraryManager();
+	}
+	else
+		throw new BackendNotSupportedException("Not running on Mac OS.");
   }
 
   /**
