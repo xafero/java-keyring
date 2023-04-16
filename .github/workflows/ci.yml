@@ -33,10 +33,6 @@ jobs:
       - name: Maven Install >
         run: >
           chmod +x ${{ github.workspace }}/.setupkeystore.sh && source ${{ github.workspace }}/.setupkeystore.sh &&
-          mvn --batch-mode --update-snapshots test
-      - uses: codecov/codecov-action@v3
-        with:
-          files: ./coverage.xml
-          name: unittest
-          fail_ci_if_error: true
-          verbose: true
+          mvn --batch-mode --update-snapshots install
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
