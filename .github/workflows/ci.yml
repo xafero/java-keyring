@@ -32,7 +32,7 @@ jobs:
           java-version: ${{ matrix.java-version }}
       - name: Maven Install >
         run: >
-          chmod +x ${{ github.workspace }}/.setupkeystore.sh && source ${{ github.workspace }}/.setupkeystore.sh
+          chmod +x ${{ github.workspace }}/.setupkeystore.sh && source ${{ github.workspace }}/.setupkeystore.sh &&
           mvn --batch-mode --update-snapshots test
       - uses: codecov/codecov-action@v3
         with:
