@@ -12,7 +12,7 @@ if [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
     echo FAIL: the secret could not be retrieved.
     return 1;
   fi
-  echo SUCCESS: the secret could not be retrieved.
+  echo SUCCESS: the secret could be retrieved.
 fi 
 
 if [[ "$(uname -s)" == "Darwin" ]]; then 
